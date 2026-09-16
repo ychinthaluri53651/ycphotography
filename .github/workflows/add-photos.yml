@@ -1,0 +1,43 @@
+name: Add photos
+
+on:
+  push:
+    branches: [main]
+    paths: ["photos-to-add/**"]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: add-photos
+  cancel-in-progress: false
+
+jobs:
+  add-photos:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install image libraries
+        run: pip install pillow pillow-heif
+
+      - name: Resize photos and add them to the portfolio
+        run: python3 tools/add_photos.py
+
+      - name: Commit the new photos
+        run: |
+          git add -A assets photos-to-add
+          if git diff --cached --quiet; then
+            echo "Nothing to commit"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Add new photos to the portfolio"
+          git pull --rebase
+          git push
