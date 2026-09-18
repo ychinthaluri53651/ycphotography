@@ -14,3 +14,4 @@ photos-to-add/**/*.[Rr][Ww]2
 photos-to-add/**/*.[Oo][Rr][Ff]
 photos-to-add/**/*.lrdata/
 photos-to-add/**/*.lrcat*
+__pycache__/
