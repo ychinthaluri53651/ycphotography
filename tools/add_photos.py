@@ -35,6 +35,8 @@ from pathlib import Path
 
 from PIL import Image, ImageOps
 
+from stamp_assets import stamp
+
 try:
     from pillow_heif import register_heif_opener
     register_heif_opener()
@@ -81,6 +83,7 @@ def load_photos():
 def save_photos(photos):
     body = json.dumps(photos, separators=(",", ":"), ensure_ascii=False)
     PHOTOS_JS.write_text(HEADER + "window.YC_PHOTOS = " + body + ";\n")
+    stamp()                                       # so browsers fetch the new list
 
 
 def fingerprint(path):

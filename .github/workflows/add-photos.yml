@@ -3,7 +3,7 @@ name: Add photos
 on:
   push:
     branches: [main]
-    paths: ["photos-to-add/**"]
+    paths: ["photos-to-add/**", "assets/css/**", "assets/js/**"]
   workflow_dispatch:
 
 permissions:
@@ -29,15 +29,18 @@ jobs:
       - name: Resize photos and add them to the portfolio
         run: python3 tools/add_photos.py --clean
 
+      - name: Make browsers fetch changed styles and scripts
+        run: python3 tools/stamp_assets.py
+
       - name: Commit the new photos
         run: |
-          git add -A assets photos-to-add
+          git add -A assets photos-to-add ./*.html
           if git diff --cached --quiet; then
             echo "Nothing to commit"
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git commit -m "Add new photos to the portfolio"
+          git commit -m "Update the portfolio"
           git pull --rebase
           git push
