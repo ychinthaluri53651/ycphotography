@@ -6,21 +6,27 @@
   "use strict";
 
   var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  var photos = window.YC_PHOTOS || [];
+  var allPhotos = window.YC_PHOTOS || [];
 
   var CATEGORIES = [
     { id: "all", label: "All work" },
     { id: "weddings", label: "Weddings" },
-    { id: "couples", label: "Couples" },
-    { id: "family", label: "Family" },
-    { id: "kids", label: "Kids & milestones" },
-    { id: "portraits", label: "Portraits" },
+    { id: "housewarming", label: "Housewarming" },
     { id: "events", label: "Events" },
-    { id: "travel", label: "Travel & street" }
+    { id: "portraits", label: "Portraits" }
   ];
 
   var labelOf = {};
-  CATEGORIES.forEach(function (c) { labelOf[c.id] = c.label; });
+  var rankOf = {};
+  CATEGORIES.forEach(function (c, i) { labelOf[c.id] = c.label; rankOf[c.id] = i; });
+
+  // the portfolio shows only the categories above, each kept together in that
+  // order; photos in any other category stay in photos.js but off the gallery
+  var photos = allPhotos
+    .filter(function (p) { return rankOf[p.cat] > 0; })
+    .map(function (p, i) { return { p: p, i: i }; })
+    .sort(function (a, b) { return rankOf[a.p.cat] - rankOf[b.p.cat] || a.i - b.i; })
+    .map(function (x) { return x.p; });
 
   function $(sel, root) { return (root || document).querySelector(sel); }
   function $$(sel, root) { return Array.prototype.slice.call((root || document).querySelectorAll(sel)); }
@@ -341,7 +347,7 @@
   function fillSlots() {
     if (!photos.length) return;
     var byId = {};
-    photos.forEach(function (p) { byId[p.id] = p; });
+    allPhotos.forEach(function (p) { byId[p.id] = p; });
 
     $$("[data-photo]").forEach(function (el) {
       var p = byId[el.dataset.photo];

@@ -643,8 +643,8 @@ body.is-menu-open .menu a {
 /* ==========================================================================
    category cards
    ========================================================================== */
-/* 7 cards, no orphan row: the feature card spans two columns, so the grid
-   always fills exactly (8 cells across 4 / 2 / 1 columns). */
+/* 4 cards, no orphan row: they fill the grid exactly across 4 / 2 / 1
+   columns. .cat--wide is kept for a feature card that spans two. */
 .cats {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
