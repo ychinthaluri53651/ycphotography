@@ -27,7 +27,7 @@ jobs:
         run: pip install pillow pillow-heif
 
       - name: Resize photos and add them to the portfolio
-        run: python3 tools/add_photos.py
+        run: python3 tools/add_photos.py --clean
 
       - name: Commit the new photos
         run: |

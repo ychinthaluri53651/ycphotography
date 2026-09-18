@@ -1,2 +1,16 @@
 .DS_Store
 .netlify/
+.claude/launch.json
+
+# Camera originals and Lightroom catalogues dropped into photos-to-add/: the
+# site cannot use them and they would sit in the repository for ever.
+photos-to-add/**/*.[Cc][Rr]2
+photos-to-add/**/*.[Cc][Rr]3
+photos-to-add/**/*.[Nn][Ee][Ff]
+photos-to-add/**/*.[Aa][Rr][Ww]
+photos-to-add/**/*.[Dd][Nn][Gg]
+photos-to-add/**/*.[Rr][Aa][Ff]
+photos-to-add/**/*.[Rr][Ww]2
+photos-to-add/**/*.[Oo][Rr][Ff]
+photos-to-add/**/*.lrdata/
+photos-to-add/**/*.lrcat*

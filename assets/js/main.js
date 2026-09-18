@@ -142,7 +142,7 @@
     next.src = full(p);
     if (next.complete) next.onload();
     lbCount.textContent = (lbIndex + 1) + " / " + lbSet.length;
-    lbCaption.textContent = p.alt;
+    lbCaption.textContent = p.auto ? "" : p.alt;
     preload(lbSet[(lbIndex + 1) % lbSet.length]);
     preload(lbSet[(lbIndex - 1 + lbSet.length) % lbSet.length]);
   }
