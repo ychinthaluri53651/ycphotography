@@ -17,7 +17,8 @@ Formats: JPG, PNG, WebP, TIFF, HEIC
 
 ## What happens on its own
 
-- The portfolio arranges the photos itself — nothing to lay out, no HTML to edit.
+- The portfolio arranges the photos itself, newest first — nothing to lay out,
+  no HTML to edit.
 - Raw files (CR2, NEF, ARW, DNG…) and Lightroom catalogues are ignored, so you
   can drop a folder straight off the card without sorting it first.
 - A photo that is already on the site is recognised and skipped, so dropping

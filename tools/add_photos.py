@@ -283,7 +283,7 @@ def main():
 
     if added:
         save_photos(photos)
-        print("\n%d photo(s) added. The portfolio arranges them on its own." % added)
+        print("\n%d photo(s) added. They go at the top of the portfolio." % added)
         if not args.clean:
             print("Originals left in photos-to-add/ — they are removed once the "
                   "photos are live.")
