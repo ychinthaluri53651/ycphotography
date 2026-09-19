@@ -10,9 +10,10 @@
 
   var CATEGORIES = [
     { id: "weddings", label: "Weddings" },
-    { id: "portraits", label: "Portraits" },
-    { id: "events", label: "Events" },
-    { id: "housewarming", label: "Housewarming" }
+    { id: "half-saree", label: "Half saree" },
+    { id: "baby-shower", label: "Baby shower" },
+    { id: "photoshoots", label: "Photoshoots" },
+    { id: "birthdays", label: "Birthdays" }
   ];
 
   var labelOf = {};

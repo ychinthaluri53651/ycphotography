@@ -14,7 +14,7 @@ Usage:
               site. The Action uses this; locally the originals are left alone
               so a dropped-in file is never the copy you lose.
 
-Categories: weddings, housewarming, events, portraits
+Categories: weddings, half-saree, baby-shower, photoshoots, birthdays
 
 For each photo this writes the three WebP renditions the site uses
 (thumb 900px, full 1600px, xl 2400px on the long edge) and appends an entry
@@ -48,7 +48,7 @@ IMG = ROOT / "assets" / "img"
 INBOX = ROOT / "photos-to-add"
 PHOTOS_JS = ROOT / "assets" / "js" / "photos.js"
 
-CATEGORIES = ["weddings", "housewarming", "events", "portraits"]
+CATEGORIES = ["weddings", "half-saree", "baby-shower", "photoshoots", "birthdays"]
 EXTENSIONS = {".jpg", ".jpeg", ".png", ".webp", ".tif", ".tiff", ".heic", ".heif"}
 # Raw files are left where they are: the site can't use them and they would
 # bloat the repository for ever if they were committed.
@@ -69,9 +69,10 @@ UUID_NAME = re.compile(r"^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-
 WORD = re.compile(r"[A-Za-z]{3,}")
 GENERIC_ALT = {
     "weddings": "Wedding photograph by YC Photography",
-    "housewarming": "Housewarming photograph by YC Photography",
-    "events": "Event photograph by YC Photography",
-    "portraits": "Portrait by YC Photography",
+    "half-saree": "Half-saree portrait by YC Photography",
+    "baby-shower": "Baby shower photograph by YC Photography",
+    "photoshoots": "Photograph by YC Photography",
+    "birthdays": "Birthday photograph by YC Photography",
 }
 
 
