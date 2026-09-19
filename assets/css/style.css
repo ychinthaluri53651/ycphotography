@@ -706,12 +706,6 @@ body.is-menu-open .menu a {
   font-size: 1.6rem;
 }
 
-.cat__count {
-  font-size: 0.68rem;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.7);
-}
 
 /* ==========================================================================
    about strip
@@ -862,11 +856,6 @@ body.is-menu-open .menu a {
   color: var(--paper);
 }
 
-.filter span {
-  font-size: 0.62rem;
-  opacity: 0.6;
-  margin-left: 0.35rem;
-}
 
 .grid {
   display: grid;

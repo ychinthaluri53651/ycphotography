@@ -9,7 +9,6 @@
   var allPhotos = window.YC_PHOTOS || [];
 
   var CATEGORIES = [
-    { id: "all", label: "All work" },
     { id: "weddings", label: "Weddings" },
     { id: "housewarming", label: "Housewarming" },
     { id: "events", label: "Events" },
@@ -25,7 +24,7 @@
   // highest number is the most recent. Photos in any other category stay in
   // photos.js but off the gallery.
   var photos = allPhotos
-    .filter(function (p) { return rankOf[p.cat] > 0; })
+    .filter(function (p) { return rankOf.hasOwnProperty(p.cat); })
     .sort(function (a, b) { return idNumber(b) - idNumber(a); });
 
   function idNumber(p) { return parseInt(p.id.split("-")[1], 10); }
@@ -305,14 +304,13 @@
     photos.forEach(function (p) { counts[p.cat] = (counts[p.cat] || 0) + 1; });
 
     CATEGORIES.forEach(function (c) {
-      var n = c.id === "all" ? photos.length : counts[c.id] || 0;
-      if (!n) return;
+      if (!counts[c.id]) return;          // no button for an empty category
       var b = document.createElement("button");
       b.className = "filter";
       b.type = "button";
       b.dataset.cat = c.id;
       b.setAttribute("aria-pressed", "false");
-      b.innerHTML = c.label + " <span>" + n + "</span>";
+      b.textContent = c.label;
       bar.appendChild(b);
     });
 
@@ -321,19 +319,10 @@
         b.setAttribute("aria-pressed", b.dataset.cat === cat ? "true" : "false");
       });
       $$(".tile", grid).forEach(function (t) {
-        t.hidden = !(cat === "all" || t.dataset.cat === cat);
+        t.hidden = t.dataset.cat !== cat;
       });
       layout();
-      var note = $("[data-gallery-note]");
-      if (note) {
-        var n = $$(".tile", grid).filter(function (t) { return !t.hidden; }).length;
-        note.textContent = n + (n === 1 ? " photograph" : " photographs") +
-          (cat === "all" ? "" : " — " + labelOf[cat]);
-      }
-      if (push) {
-        var url = cat === "all" ? location.pathname : location.pathname + "?c=" + cat;
-        history.replaceState(null, "", url);
-      }
+      if (push) history.replaceState(null, "", location.pathname + "?c=" + cat);
     };
 
     bar.addEventListener("click", function (e) {
@@ -342,7 +331,9 @@
     });
 
     var start = new URLSearchParams(location.search).get("c");
-    apply(start && labelOf[start] ? start : "all", false);
+    var first = $(".filter", bar);
+    if (!first) return;
+    apply(start && counts[start] ? start : first.dataset.cat, false);
   }
 
   /* ------------------------------------------- home page: featured + cards */
@@ -375,13 +366,6 @@
         f.addEventListener("click", function () { lbOpen(set, i); });
       });
     }
-
-    // counts on the category cards
-    var counts = {};
-    photos.forEach(function (p) { counts[p.cat] = (counts[p.cat] || 0) + 1; });
-    $$("[data-count]").forEach(function (el) {
-      el.textContent = (counts[el.dataset.count] || 0) + " photos";
-    });
   }
 
   /* ------------------------------------------------------------ contact form */
