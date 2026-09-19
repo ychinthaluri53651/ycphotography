@@ -21,13 +21,16 @@
 
   // the portfolio shows only the categories above, newest first. Photo ids are
   // handed out in the order photos are added (yc-080 came after yc-079), so the
-  // highest number is the most recent. Photos in any other category stay in
-  // photos.js but off the gallery.
+  // highest number is the most recent. A photo marked "near" another sits with
+  // that one instead - a later batch from the same kind of shoot joins the
+  // earlier set rather than jumping to the top - and still leads it, newest
+  // first. Photos in any other category stay in photos.js but off the gallery.
   var photos = allPhotos
     .filter(function (p) { return rankOf.hasOwnProperty(p.cat); })
-    .sort(function (a, b) { return idNumber(b) - idNumber(a); });
+    .sort(function (a, b) { return placeOf(b) - placeOf(a) || idNumber(b) - idNumber(a); });
 
   function idNumber(p) { return parseInt(p.id.split("-")[1], 10); }
+  function placeOf(p) { return p.near ? parseInt(p.near.split("-")[1], 10) : idNumber(p); }
 
   function $(sel, root) { return (root || document).querySelector(sel); }
   function $$(sel, root) { return Array.prototype.slice.call((root || document).querySelectorAll(sel)); }
