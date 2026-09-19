@@ -10,9 +10,9 @@
 
   var CATEGORIES = [
     { id: "weddings", label: "Weddings" },
-    { id: "housewarming", label: "Housewarming" },
+    { id: "portraits", label: "Portraits" },
     { id: "events", label: "Events" },
-    { id: "portraits", label: "Portraits" }
+    { id: "housewarming", label: "Housewarming" }
   ];
 
   var labelOf = {};
