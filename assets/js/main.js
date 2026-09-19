@@ -20,13 +20,15 @@
   var rankOf = {};
   CATEGORIES.forEach(function (c, i) { labelOf[c.id] = c.label; rankOf[c.id] = i; });
 
-  // the portfolio shows only the categories above, each kept together in that
-  // order; photos in any other category stay in photos.js but off the gallery
+  // the portfolio shows only the categories above, newest first. Photo ids are
+  // handed out in the order photos are added (yc-080 came after yc-079), so the
+  // highest number is the most recent. Photos in any other category stay in
+  // photos.js but off the gallery.
   var photos = allPhotos
     .filter(function (p) { return rankOf[p.cat] > 0; })
-    .map(function (p, i) { return { p: p, i: i }; })
-    .sort(function (a, b) { return rankOf[a.p.cat] - rankOf[b.p.cat] || a.i - b.i; })
-    .map(function (x) { return x.p; });
+    .sort(function (a, b) { return idNumber(b) - idNumber(a); });
+
+  function idNumber(p) { return parseInt(p.id.split("-")[1], 10); }
 
   function $(sel, root) { return (root || document).querySelector(sel); }
   function $$(sel, root) { return Array.prototype.slice.call((root || document).querySelectorAll(sel)); }
