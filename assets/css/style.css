@@ -274,23 +274,10 @@ section { position: relative; }
   white-space: nowrap;
 }
 
-.brand__mark {
-  width: 34px;
+.brand__logo {
   height: 34px;
+  width: auto;
   flex: none;
-  border: 1px solid currentColor;
-  display: grid;
-  place-items: center;
-  font-family: var(--font-display);
-  font-size: 0.95rem;
-  letter-spacing: 0.02em;
-  transition: background 0.35s var(--ease), color 0.35s var(--ease);
-}
-
-.brand:hover .brand__mark {
-  background: var(--accent);
-  border-color: var(--accent);
-  color: #fff;
 }
 
 .nav {
