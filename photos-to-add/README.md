@@ -12,7 +12,7 @@ Then commit and push. GitHub resizes each photo, adds it to that category on
 the portfolio page, and clears this folder out. The site updates a minute or
 two later. Run `git pull` afterwards to get those changes on your computer.
 
-Folders: weddings, housewarming, events, portraits
+Folders: weddings, half-saree, baby-shower, photoshoots, birthdays
 Formats: JPG, PNG, WebP, TIFF, HEIC
 
 ## What happens on its own
