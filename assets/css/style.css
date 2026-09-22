@@ -1395,3 +1395,5 @@ body.is-menu-open .menu a {
 .privacy h2 { margin: 2.4rem 0 0.8rem; }
 .privacy h2:first-child { margin-top: 0; }
 .privacy p { color: var(--ink-soft); max-width: 64ch; }
+
+/* trigger check: confirms the photo-upload workflow runs clean */
