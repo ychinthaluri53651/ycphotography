@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://ycphotography.com/sitemap.xml
+Sitemap: https://ychinthaluri53651.github.io/ycphotography/sitemap.xml

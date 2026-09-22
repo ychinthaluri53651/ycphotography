@@ -1,0 +1,8 @@
+# Pinned for the photo-upload workflow: exact versions, verified by file hash.
+# Regenerate with tools/pin_requirements.py when you want newer versions.
+pillow==12.3.0
+    --hash=sha256:78cb2c6865a35ab8ff8b75fd122f6033b92a62c82801110e48ddd6c936a45d91
+    --hash=sha256:3b8182a766685eaa002637e28b4ec8d6b18819a0c71f579bf0dbaa5830297cce
+pillow-heif==1.8.0
+    --hash=sha256:e9088a295f3c64f88211c4b1d845d883cf535e8919a72a17f7860abe8c991bf2
+    --hash=sha256:e47c27432c6fd3d66c22f0de9f27fd379383b646c947520bc485854ce72060d0

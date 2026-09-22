@@ -5,15 +5,28 @@
 (function () {
   "use strict";
 
+  // Never run inside another site's frame: a page that can't be framed can't be
+  // overlaid with invisible buttons (clickjacking). GitHub Pages can't send the
+  // header that would do this, so the page does it itself.
+  if (window.top !== window.self) {
+    try { window.top.location.replace(window.location.href); }
+    catch (e) { document.documentElement.style.display = "none"; }
+    return;
+  }
+
+  // The address is put together here rather than written in the pages, so
+  // bots that harvest addresses from page source don't find it.
+  var mail = ["yoganandaatreya", "gmail.com"].join("@");
+
   var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   var allPhotos = window.YC_PHOTOS || [];
 
   var CATEGORIES = [
     { id: "weddings", label: "Weddings" },
+    { id: "birthdays", label: "Birthdays" },
     { id: "half-saree", label: "Half saree" },
     { id: "baby-shower", label: "Baby shower" },
-    { id: "photoshoots", label: "Photoshoots" },
-    { id: "birthdays", label: "Birthdays" }
+    { id: "photoshoots", label: "Photoshoots" }
   ];
 
   var labelOf = {};
@@ -42,6 +55,9 @@
   // let the browser pick the rendition that suits the slot and the screen
   function smallSet(p) { return thumb(p) + " 900w, " + full(p) + " 1600w"; }
   function largeSet(p) { return full(p) + " 1600w, " + xl(p) + " 2400w"; }
+  // the full-screen viewer shows copies carrying the gold Y watermark
+  function view(p) { return "assets/img/view/" + p.id + ".webp"; }
+  function viewSet(p) { return view(p) + " 1600w, assets/img/viewxl/" + p.id + ".webp 2400w"; }
 
   /* ---------------------------------------------------------------- header */
   var header = $(".header");
@@ -132,8 +148,8 @@
     if (!p) return;
     var i = new Image();
     i.sizes = "100vw";
-    i.srcset = largeSet(p);
-    i.src = full(p);
+    i.srcset = viewSet(p);
+    i.src = view(p);
   }
 
   function lbShow(i) {
@@ -144,13 +160,13 @@
     var next = new Image();
     next.onload = function () {
       lbImg.sizes = "100vw";
-      lbImg.srcset = largeSet(p);
+      lbImg.srcset = viewSet(p);
       lbImg.src = next.currentSrc || next.src;
       lbImg.classList.add("is-ready");
     };
     next.sizes = "100vw";
-    next.srcset = largeSet(p);
-    next.src = full(p);
+    next.srcset = viewSet(p);
+    next.src = view(p);
     if (next.complete) next.onload();
     lbCount.textContent = (lbIndex + 1) + " / " + lbSet.length;
     lbCaption.textContent = p.auto ? "" : p.alt;
@@ -402,10 +418,30 @@
           "",
           get("message")
         ].join("\n");
-        window.location.href = "mailto:" + form.dataset.email +
+        window.location.href = "mailto:" + mail +
           "?subject=" + encodeURIComponent("Enquiry from " + (get("name") || "the website")) +
           "&body=" + encodeURIComponent(body);
       }
+    });
+  }
+
+  /* ---------------------------------------------------------------- email */
+  function mailLinks() {
+    $$("[data-mail]").forEach(function (a) {
+      a.href = "mailto:" + mail;
+      if (a.hasAttribute("data-mail-show")) a.textContent = mail;
+    });
+  }
+
+  /* ------------------------------------------------------- photo guarding */
+  // A deterrent, not a lock: no right-click menu or drag-to-save on the
+  // photographs. It can't stop a screenshot.
+  function guardPhotos() {
+    document.addEventListener("contextmenu", function (e) {
+      if (e.target.closest("img, .tile, .lb__frame, .hero__slide, .cat, [data-photo]")) e.preventDefault();
+    });
+    document.addEventListener("dragstart", function (e) {
+      if (e.target.tagName === "IMG") e.preventDefault();
     });
   }
 
@@ -415,4 +451,6 @@
   buildGrid();
   buildFilters();
   contactForm();
+  mailLinks();
+  guardPhotos();
 })();

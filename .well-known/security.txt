@@ -1,0 +1,5 @@
+# How to report a security problem with this website
+Contact: https://ychinthaluri53651.github.io/ycphotography/contact.html
+Expires: 2027-09-19T00:00:00.000Z
+Preferred-Languages: en
+Canonical: https://ychinthaluri53651.github.io/ycphotography/.well-known/security.txt
