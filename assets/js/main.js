@@ -50,14 +50,10 @@
   function $$(sel, root) { return Array.prototype.slice.call((root || document).querySelectorAll(sel)); }
   function thumb(p) { return "assets/img/thumb/" + p.id + ".webp"; }
   function full(p) { return "assets/img/full/" + p.id + ".webp"; }
-  function xl(p) { return "assets/img/xl/" + p.id + ".webp"; }
 
   // let the browser pick the rendition that suits the slot and the screen
   function smallSet(p) { return thumb(p) + " 900w, " + full(p) + " 1600w"; }
-  function largeSet(p) { return full(p) + " 1600w, " + xl(p) + " 2400w"; }
-  // the full-screen viewer shows copies carrying the gold Y watermark
-  function view(p) { return "assets/img/view/" + p.id + ".webp"; }
-  function viewSet(p) { return view(p) + " 1600w, assets/img/viewxl/" + p.id + ".webp 2400w"; }
+  function largeSet(p) { return smallSet(p); }   // 1600px is the largest copy published
 
   /* ---------------------------------------------------------------- header */
   var header = $(".header");
@@ -148,8 +144,8 @@
     if (!p) return;
     var i = new Image();
     i.sizes = "100vw";
-    i.srcset = viewSet(p);
-    i.src = view(p);
+    i.srcset = smallSet(p);
+    i.src = full(p);
   }
 
   function lbShow(i) {
@@ -160,13 +156,13 @@
     var next = new Image();
     next.onload = function () {
       lbImg.sizes = "100vw";
-      lbImg.srcset = viewSet(p);
+      lbImg.srcset = smallSet(p);
       lbImg.src = next.currentSrc || next.src;
       lbImg.classList.add("is-ready");
     };
     next.sizes = "100vw";
-    next.srcset = viewSet(p);
-    next.src = view(p);
+    next.srcset = smallSet(p);
+    next.src = full(p);
     if (next.complete) next.onload();
     lbCount.textContent = (lbIndex + 1) + " / " + lbSet.length;
     lbCaption.textContent = p.auto ? "" : p.alt;
@@ -427,6 +423,15 @@
   }
 
   /* ------------------------------------------------------- photo guarding */
+  // Save and print shortcuts do nothing here. Like the right-click block this
+  // only stops casual copying - a screenshot still works, and nothing can
+  // prevent that.
+  function guardKeys() {
+    document.addEventListener("keydown", function (e) {
+      if ((e.ctrlKey || e.metaKey) && "sp".indexOf(e.key.toLowerCase()) !== -1) e.preventDefault();
+    });
+  }
+
   // A deterrent, not a lock: no right-click menu or drag-to-save on the
   // photographs. It can't stop a screenshot.
   function guardPhotos() {
@@ -446,4 +451,5 @@
   contactForm();
   mailLinks();
   guardPhotos();
+  guardKeys();
 })();
