@@ -655,13 +655,10 @@ body.is-menu-open .menu a {
 
 .mosaic figure:hover img { transform: scale(1.05); }
 
-.m-a { grid-column: span 7; aspect-ratio: 3 / 2; }
-.m-b { grid-column: span 5; aspect-ratio: 4 / 5; }
-.m-c { grid-column: span 4; aspect-ratio: 2 / 3; }
-.m-d { grid-column: span 4; aspect-ratio: 2 / 3; }
-.m-e { grid-column: span 4; aspect-ratio: 2 / 3; }
-.m-f { grid-column: span 5; aspect-ratio: 4 / 5; }
-.m-g { grid-column: span 7; aspect-ratio: 3 / 2; }
+/* A row can only be gapless if everything in it is the same shape, so wide
+   photographs pair up two to a row and tall ones sit three across. */
+.m-wide { grid-column: span 6; aspect-ratio: 3 / 2; }
+.m-tall { grid-column: span 4; aspect-ratio: 2 / 3; }
 
 /* ==========================================================================
    category cards
@@ -1340,9 +1337,7 @@ body.is-menu-open .menu a {
   .nav { display: none; }
   .burger { display: block; }
 
-  .m-a, .m-b, .m-c, .m-d, .m-e, .m-f, .m-g { grid-column: span 6; }
-  .m-a, .m-g { aspect-ratio: 3 / 2; }
-  .m-b, .m-c, .m-d, .m-e, .m-f { aspect-ratio: 3 / 4; }
+  .m-wide { grid-column: span 12; }
 
   .strip { grid-template-columns: repeat(2, 1fr); }
   .hero__dots { display: none; }
@@ -1369,8 +1364,8 @@ body.is-menu-open .menu a {
 
 @media (max-width: 560px) {
   /* photographs deserve the full width on a phone */
-  .m-a, .m-b, .m-c, .m-d, .m-e, .m-f, .m-g { grid-column: span 12; }
-  .m-b, .m-c, .m-d, .m-e, .m-f { aspect-ratio: 4 / 5; }
+  .m-wide, .m-tall { grid-column: span 12; }
+  .m-tall { aspect-ratio: 4 / 5; }
 
   .grid { grid-template-columns: 1fr; }
   .field--half { grid-template-columns: 1fr; }
