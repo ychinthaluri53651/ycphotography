@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-riitXBKGtl5y5ccA7GF6ccqJuwEVP5tm8j0ff/fbw9U='; style-src 'self' 'unsafe-inline'; img-src 'self'; font-src 'self'; connect-src 'self'; media-src 'none'; object-src 'none'; frame-src 'none'; base-uri 'self'; form-action 'self' https://formspree.io; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-riitXBKGtl5y5ccA7GF6ccqJuwEVP5tm8j0ff/fbw9U='; style-src 'self' 'unsafe-inline'; img-src 'self'; font-src 'self'; connect-src 'self'; media-src 'none'; object-src 'none'; frame-src 'none'; base-uri 'self'; form-action 'self' https://formsubmit.co; upgrade-insecure-requests">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Contact — YC Photography</title>
@@ -63,14 +63,13 @@
       <!-- ------------------------------------------------ enquiry form -->
       <div class="reveal">
         <!--
-          Enquiries currently arrive by opening the visitor's own mail app with
-          everything filled in, addressed to the email in main.js. That relies on the visitor having mail set up.
-          To have submissions delivered straight to that inbox instead, create
-          a free endpoint (Formspree, Basin, Web3Forms…) and paste it into the
-          action="" below — the mail-app fallback then switches itself off.
+          The form posts to FormSubmit, which forwards it to the inbox. The
+          address is not written here: main.js builds the action from the same
+          parts it uses for the mail links, so address-harvesting bots reading
+          this page find nothing.
         -->
         <form data-contact-form
-              action="https://formspree.io/f/YOUR_FORM_ID"
+              action="contact.html"
               method="POST">
 
           <div class="field--half">
@@ -118,10 +117,11 @@
           </div>
 
           <!-- spam trap, hidden from people -->
-          <input class="hp" type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <input class="hp" type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true">
 
+          <noscript><p class="formnote">Sending needs JavaScript. With it off, email me directly — the address is beside this form.</p></noscript>
           <button class="btn" type="submit">Send message</button>
-          <p class="formnote">Your message comes straight to my inbox and is only used to reply. Nothing is stored on this site — <a href="privacy.html" style="text-decoration:underline">privacy</a>.</p>
+          <p class="formnote">Your message is delivered to my inbox by FormSubmit and is only used to reply. Nothing is stored on this site — <a href="privacy.html" style="text-decoration:underline">privacy</a>.</p>
         </form>
       </div>
 
@@ -226,6 +226,6 @@
 </footer>
 
 <script src="assets/js/photos.js?v=a34ed6cd"></script>
-<script src="assets/js/main.js?v=6d0cc3f5"></script>
+<script src="assets/js/main.js?v=f23a80f0"></script>
 </body>
 </html>

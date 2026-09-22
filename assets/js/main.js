@@ -393,35 +393,28 @@
     var form = $("[data-contact-form]");
     if (!form) return;
 
-    form.addEventListener("submit", function (e) {
-      if (form.querySelector('input[name="_gotcha"]').value) {
-        e.preventDefault();
-        return;
-      }
+    // FormSubmit takes the submission and forwards it to the inbox. The address
+    // is assembled here rather than written in the page, so bots reading the
+    // HTML don't find it. FormSubmit emails a one-time activation link the first
+    // time a message is sent from a new address.
+    form.setAttribute("action", "https://formsubmit.co/" + mail);
 
-      var endpoint = form.getAttribute("action") || "";
-      // Until a form endpoint is connected, fall back to the visitor's mail app
-      // so no enquiry is ever lost.
-      if (endpoint.indexOf("YOUR_FORM_ID") !== -1 || endpoint === "") {
-        e.preventDefault();
-        var get = function (n) {
-          var f = form.querySelector('[name="' + n + '"]');
-          return f ? f.value.trim() : "";
-        };
-        var body = [
-          "Name: " + get("name"),
-          "Email: " + get("email"),
-          "Phone: " + get("phone"),
-          "Type of shoot: " + get("shoot"),
-          "Date: " + get("date"),
-          "Location: " + get("location"),
-          "",
-          get("message")
-        ].join("\n");
-        window.location.href = "mailto:" + mail +
-          "?subject=" + encodeURIComponent("Enquiry from " + (get("name") || "the website")) +
-          "&body=" + encodeURIComponent(body);
-      }
+    var hidden = {
+      _subject: "New enquiry from the website",
+      _template: "table",
+      _captcha: "false",
+      _next: location.origin + location.pathname.replace(/contact\.html$/, "") + "thanks.html"
+    };
+    Object.keys(hidden).forEach(function (k) {
+      if (form.querySelector('[name="' + k + '"]')) return;
+      var i = document.createElement("input");
+      i.type = "hidden"; i.name = k; i.value = hidden[k];
+      form.appendChild(i);
+    });
+
+    form.addEventListener("submit", function (e) {
+      // anything in the hidden field means a bot filled the form in
+      if (form.querySelector('input[name="_honey"]').value) e.preventDefault();
     });
   }
 
