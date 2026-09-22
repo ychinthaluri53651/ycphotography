@@ -25,7 +25,7 @@ jobs:
           python-version: "3.12"
 
       - name: Install image libraries
-        run: pip install --require-hashes --only-binary :all: -r tools/requirements.txt
+        run: "pip install --require-hashes --only-binary :all: -r tools/requirements.txt"
 
       - name: Resize photos and add them to the portfolio
         run: python3 tools/add_photos.py --clean
