@@ -525,8 +525,10 @@
       var groups = $$("[data-story]");
       if (!groups.length) groups = $$("[data-mosaic]");
       groups.forEach(function (group) {
+        // only frames whose photo exists, so the viewer's set and the frames
+        // always line up
         var figs = $$("[data-mosaic] figure[data-photo], figure[data-photo]", group)
-          .filter(function (f, i, all) { return all.indexOf(f) === i; });
+          .filter(function (f, i, all) { return all.indexOf(f) === i && byId[f.dataset.photo]; });
         var set = figs.map(function (f) { return byId[f.dataset.photo]; }).filter(Boolean);
         figs.forEach(function (f, i) {
           var p = byId[f.dataset.photo];
