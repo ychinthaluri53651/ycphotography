@@ -2036,8 +2036,8 @@ body,
 }
 
 /* ==========================================================================
-   MOTION: an opening like a film, words and gold lines that draw themselves
-   in, photographs that develop as they arrive. All of it is skipped for
+   MOTION: words and gold lines that draw themselves in, photographs that
+   develop as they arrive. All of it is skipped for
    visitors who ask their device for less motion.
    ========================================================================== */
 
@@ -2051,30 +2051,7 @@ body,
 
 .c-line > span { display: inline-block; }
 
-@keyframes open-from-black { from { opacity: 1; } to { opacity: 0; } }
-@keyframes drift-down { from { opacity: 0; translate: 0 -12px; } to { opacity: 1; translate: 0 0; } }
-@keyframes drift-up { from { opacity: 0; translate: 0 14px; } to { opacity: 1; translate: 0 0; } }
-
 @media (prefers-reduced-motion: no-preference) {
-  /* ---- the opening: the first photograph fades up from black ---- */
-  .js .hero--cinema .hero__slides::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    z-index: 6;
-    background: #000;
-    pointer-events: none;
-    animation: open-from-black 1.6s ease-out 0.1s both;
-  }
-
-  .js body:has(.hero--cinema) .header .brand { animation: drift-down 1s var(--ease) 0.7s both; }
-  .js body:has(.hero--cinema) .header .nav > a,
-  .js body:has(.hero--cinema) .header .burger { animation: drift-down 0.9s var(--ease) 0.85s both; }
-  .js body:has(.hero--cinema) .header .nav > a:nth-child(2) { animation-delay: 0.92s; }
-  .js body:has(.hero--cinema) .header .nav > a:nth-child(3) { animation-delay: 0.99s; }
-  .js body:has(.hero--cinema) .header .nav > a:nth-child(4) { animation-delay: 1.06s; }
-  .js .hero--cinema .hero__bar { animation: drift-up 0.9s var(--ease) 1.2s both; }
-
   /* ---- the headline rises line by line; the gold rule draws outward ---- */
   .js .c-intro.anim .c-line > span {
     transform: translateY(110%);
