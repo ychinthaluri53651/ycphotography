@@ -1328,6 +1328,7 @@ body.room .footer { border-top: 1px solid var(--room-line); }
   object-fit: cover;
 }
 
+.prose h2,
 .prose h3 {
   font-family: var(--font-sans);
   font-size: 0.7rem;
