@@ -1746,3 +1746,290 @@ body,
 .privacy p { color: var(--ink-soft); max-width: 64ch; }
 
 /* trigger check: confirms the photo-upload workflow runs clean */
+
+/* ==========================================================================
+   CINEMATIC: deep charcoal pages, warm ivory type and touches of gold. The
+   photographs fill the screen. (Overrides the palette above.)
+   ========================================================================== */
+:root {
+  color-scheme: dark;              /* native form controls and scrollbars too */
+  --paper: #0f0e0c;
+  --paper-2: #171512;
+  --ink: #f2ede4;
+  --ink-soft: #cbc3b5;
+  --muted: #a39a8c;
+  --line: rgba(242, 237, 228, 0.14);
+  --ink-ghost: rgba(242, 237, 228, 0.26);
+  --accent: #c9a46a;               /* gold: 8.4:1 on the charcoal */
+  --accent-deep: #b08d57;
+  --gold-light: #dcbb84;
+  --on-light: #0f0e0c;
+  --on-dark: #f2ede4;
+  --dark: #0a0908;
+  --dark-2: #12100e;
+}
+
+/* gold buttons, ivory outlines */
+.btn--gold {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--on-light);
+}
+
+.btn--gold:hover {
+  background: var(--gold-light);
+  border-color: var(--gold-light);
+  color: var(--on-light);
+}
+
+.btn:hover { color: var(--on-light); }
+
+.btn--solid-light {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--on-light);
+}
+
+.btn--solid-light:hover {
+  background: var(--gold-light);
+  border-color: var(--gold-light);
+  color: var(--on-light);
+}
+
+.nav__cta:hover {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--on-light);
+}
+
+/* the menu bar: clear over the photographs, charcoal once you scroll */
+.header.is-solid,
+.header.header--static {
+  background: rgba(15, 14, 12, 0.9);
+  color: var(--ink);
+  box-shadow: 0 1px 0 var(--line);
+}
+
+.filters { background: rgba(15, 14, 12, 0.92); }
+
+@media (max-width: 860px) {
+  .dock { background: rgba(15, 14, 12, 0.92); box-shadow: 0 -1px 0 var(--line); }
+  .dock .btn { background: var(--accent); border-color: var(--accent); color: var(--on-light); }
+}
+
+/* the logo in the middle, like a wedding invitation */
+@media (min-width: 861px) {
+  .header .wrap { position: relative; }
+  .header .nav { flex: 1; }
+  .header .nav__cta { margin-left: auto; }
+
+  .brand {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    flex-direction: column;
+    gap: 0.35rem;
+    font-size: 0.62rem;
+    letter-spacing: 0.34em;
+    transform: translate(-50%, -50%);
+  }
+
+  .brand .brand__logo { height: 30px; }
+  .header.is-solid .brand .brand__logo { height: 26px; }
+}
+
+/* ---------- hero: the photographs fill the screen ---------- */
+.hero--cinema {
+  position: relative;
+  display: block;
+  height: 100svh;
+  min-height: 560px;
+  padding: 0;
+  overflow: hidden;
+  background: #000;
+  color: #fff;
+}
+
+.hero--cinema .hero__slides {
+  position: absolute;
+  inset: 0;
+  aspect-ratio: auto;
+  background: #000;
+}
+
+/* a soft shade at the foot so the caption reads, never over a face */
+.hero--cinema::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 3;
+  height: 28%;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0));
+  pointer-events: none;
+}
+
+.hero--cinema .hero__bar {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0 var(--pad) clamp(0.75rem, 2.5vh, 1.5rem);
+}
+
+.hero--cinema .hero__caption {
+  display: block;
+  margin: 0;
+  font-size: 0.8rem;
+  letter-spacing: 0.04em;
+  color: rgba(255, 255, 255, 0.86);
+}
+
+.hero--cinema .hero__count { color: rgba(255, 255, 255, 0.82); }
+.hero--cinema .hero__dots button::before { background: rgba(255, 255, 255, 0.38); }
+.hero--cinema .hero__dots button:hover::before { background: rgba(255, 255, 255, 0.7); }
+.hero--cinema .hero__dots button[aria-current="true"]::before { background: #fff; }
+.hero--cinema .hero__pause { color: #fff; }
+.hero--cinema .hero__pause-ring { border-color: rgba(255, 255, 255, 0.45); }
+.hero--cinema .hero__pause:hover .hero__pause-ring { border-color: #fff; }
+
+/* phones and tablets: a square frame keeps every face in the picture */
+@media (max-width: 860px) {
+  .hero--cinema {
+    height: auto;
+    min-height: 0;
+    aspect-ratio: 1 / 1;
+  }
+
+  .hero--cinema .hero__caption { display: none; }
+  .hero--cinema .hero__bar { justify-content: flex-end; }
+}
+
+/* ---------- intro: centred, like an invitation ---------- */
+.c-intro {
+  padding-block: clamp(4.5rem, 10vw, 8.5rem) clamp(4rem, 9vw, 7.5rem);
+  text-align: center;
+}
+
+.c-intro .eyebrow { margin-bottom: 1.4rem; }
+
+.c-intro__title {
+  font-size: clamp(2.8rem, 7.2vw, 6.75rem);
+  line-height: 1;
+  letter-spacing: -0.01em;
+}
+
+.c-intro__title em {
+  font-style: italic;
+  color: var(--accent);
+}
+
+/* a fine gold rule with a small diamond */
+.c-orn {
+  position: relative;
+  display: block;
+  width: 140px;
+  height: 9px;
+  margin: clamp(1.75rem, 3.5vw, 2.5rem) auto;
+  background: linear-gradient(var(--accent), var(--accent)) center / 100% 1px no-repeat;
+}
+
+.c-orn::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 7px;
+  height: 7px;
+  border: 1px solid var(--accent);
+  background: var(--paper);
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.c-intro__sub {
+  max-width: 52ch;
+  margin: 0 auto;
+  color: var(--ink-soft);
+  font-size: clamp(1rem, 1.3vw, 1.12rem);
+}
+
+.c-intro__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.9rem;
+  margin-top: 2.25rem;
+}
+
+/* ---------- the statement inks in from a readable grey ---------- */
+.statement.is-inking .w { color: rgba(242, 237, 228, 0.4); }
+.statement.is-inking .w.is-lit { color: var(--ink); }
+
+/* gallery cards: a gold line under the name on hover */
+.cat__label h3 {
+  background-image: linear-gradient(var(--accent), var(--accent));
+  background-size: 0 1px;
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  transition: background-size 0.5s var(--ease);
+}
+
+.cat:hover .cat__label h3 { background-size: 100% 1px; }
+
+/* native dropdowns stay readable */
+.field select option { color: #111; background: #fff; }
+
+/* the menu stays readable over bright photographs */
+.header:not(.is-solid):not(.header--static)::after {
+  bottom: -70%;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0));
+}
+
+.header:not(.is-solid):not(.header--static) .nav a[aria-current="page"] { color: #fff; }
+
+/* the closing invitation sits to the right, clear of the people in the photo */
+.cta::after {
+  background: linear-gradient(to right, rgba(10, 9, 8, 0.35), rgba(10, 9, 8, 0.8) 60%);
+}
+
+@media (min-width: 861px) {
+  .cta .wrap {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .cta__inner {
+    justify-items: start;
+    max-width: 34rem;
+    text-align: left;
+  }
+}
+
+@media (max-width: 860px) {
+  /* on a phone the crop moves to the lake side of the photo */
+  .cta img { object-position: 100% 50%; }
+  .cta::after { background: rgba(10, 9, 8, 0.66); }
+}
+
+/* a banner with no photograph behind its words (for photos full of faces) */
+.cta--plain {
+  background: var(--paper-2);
+  border-top: 1px solid var(--line);
+}
+
+.cta--plain img { display: none; }
+.cta--plain::after { display: none; }
+
+.cta.cta--plain .wrap { justify-content: center; }
+
+.cta.cta--plain .cta__inner {
+  justify-items: center;
+  max-width: none;
+  text-align: center;
+}
