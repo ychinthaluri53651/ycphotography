@@ -2034,3 +2034,213 @@ body,
   max-width: none;
   text-align: center;
 }
+
+/* ==========================================================================
+   SAGE, CREAM & BURGUNDY: warm cream pages, muted sage gallery walls for the
+   photographs, and deep burgundy for headings, buttons and the strong
+   sections. (Overrides the palette above.)
+   Contrast: ink on cream 11.3:1, on sage 6.8:1; burgundy on cream 9.8:1,
+   on sage 5.9:1; cream on burgundy 9.8:1. Cream is never used on sage.
+   ========================================================================== */
+:root {
+  color-scheme: light;
+  --cream: #e8d2b5;
+  --sage: #a5a79b;
+  --burgundy: #590907;
+  --burgundy-hover: #741210;
+
+  --paper: var(--cream);
+  --paper-2: var(--sage);
+  --ink: #2b1a16;
+  --ink-soft: #3d2b25;
+  --muted: #5c4840;
+  --line: rgba(89, 9, 7, 0.2);
+  --ink-ghost: rgba(43, 26, 22, 0.3);
+  --accent: var(--burgundy);
+  --accent-deep: var(--burgundy-hover);
+  --gold-light: var(--burgundy-hover);
+  --on-light: #2b1a16;
+  --on-dark: var(--cream);
+  --dark: var(--burgundy);
+  --dark-2: #430605;
+
+  /* the "room" (stories, portfolio) becomes a sage gallery wall */
+  --room: var(--sage);
+  --room-2: #b2b4a9;
+  --room-ink: #1f1210;
+  --room-soft: #2f201b;
+  --room-muted: #3e2d27;
+  --room-line: rgba(31, 18, 16, 0.2);
+  --room-accent: var(--burgundy);
+}
+
+/* on sage, quiet text stays dark enough to read */
+.section--paper2 { --muted: #3e2d27; --ink-soft: #2f201b; }
+
+/* ---------- buttons: burgundy pills with cream type ---------- */
+.btn,
+.nav__cta { border-radius: 999px; }
+
+.btn { padding-inline: 2.1rem; }
+
+.btn:hover,
+.btn--ghost:hover {
+  background: var(--burgundy-hover);
+  border-color: var(--burgundy-hover);
+  color: var(--cream);
+}
+
+.btn--gold,
+.btn--solid-light {
+  background: var(--burgundy);
+  border-color: var(--burgundy);
+  color: var(--cream);
+}
+
+.btn--gold:hover,
+.btn--solid-light:hover {
+  background: var(--burgundy-hover);
+  border-color: var(--burgundy-hover);
+  color: var(--cream);
+}
+
+.btn--ghost {
+  color: var(--burgundy);
+  border-color: var(--burgundy);
+}
+
+.nav__cta:hover {
+  background: var(--burgundy);
+  border-color: var(--burgundy);
+  color: var(--cream);
+}
+
+/* small capitals with a short rule beneath, as in the reference */
+.eyebrow::after {
+  content: "";
+  display: block;
+  width: 28px;
+  height: 1px;
+  margin-top: 0.75rem;
+  background: currentColor;
+}
+
+.c-intro .eyebrow::after { margin-inline: auto; }
+.eyebrow--light::after { background: currentColor; }
+
+/* ---------- the menu bar: cream once you scroll, everywhere ---------- */
+.header.is-solid,
+.header.header--static,
+.header.is-solid.is-over-dark,
+body.room .header.header--static {
+  background: rgba(232, 210, 181, 0.95);
+  color: var(--ink);
+  box-shadow: 0 1px 0 var(--line);
+}
+
+.header.is-over-dark .nav a[aria-current="page"],
+.nav a[aria-current="page"] { color: var(--burgundy); }
+
+.header:not(.is-solid):not(.header--static) .nav a[aria-current="page"] { color: #fff; }
+
+.filters,
+body.room .filters { background: rgba(232, 210, 181, 0.95); }
+
+body.room .filter[aria-pressed="true"] {
+  background: var(--burgundy);
+  border-color: var(--burgundy);
+  color: var(--cream);
+}
+
+body.room .pagehead .eyebrow { color: var(--burgundy); }
+
+@media (max-width: 860px) {
+  .dock,
+  body.room .dock {
+    background: rgba(232, 210, 181, 0.95);
+    box-shadow: 0 -1px 0 var(--line);
+  }
+
+  .dock .btn {
+    background: var(--burgundy);
+    border-color: var(--burgundy);
+    color: var(--cream);
+  }
+}
+
+/* the phone menu: burgundy, cream type */
+.menu { background: var(--burgundy); color: var(--cream); }
+.menu a:hover { color: #fff; }
+.menu__foot { color: rgba(232, 210, 181, 0.8); }
+
+/* ---------- intro and statement on cream ---------- */
+.statement.is-inking .w { color: rgba(43, 26, 22, 0.55); }   /* 3.3:1 for large text */
+.statement.is-inking .w.is-lit { color: var(--ink); }
+
+/* ---------- stories on the sage wall ---------- */
+.story__num,
+.g-work .story__num { color: var(--burgundy); }
+.story__num::after { background: var(--burgundy); }
+
+/* gallery cards: a cream line under the name on hover */
+.cat { background: var(--burgundy); }
+.cat__label h3 { background-image: linear-gradient(var(--cream), var(--cream)); }
+
+/* ---------- burgundy sections ---------- */
+.section--dark .eyebrow,
+.section--dark .step__num { color: rgba(232, 210, 181, 0.8); }
+
+.footer { color: rgba(232, 210, 181, 0.85); }
+.footer__brand { color: var(--cream); }
+.footer__h { color: rgba(232, 210, 181, 0.75); }
+.footer a:hover { color: #fff; }
+.footer__bottom { border-top-color: rgba(232, 210, 181, 0.2); color: rgba(232, 210, 181, 0.8); }
+.social a { border-color: rgba(232, 210, 181, 0.35); }
+
+/* the closing banner: the photograph under a burgundy veil */
+.cta::after {
+  background: linear-gradient(to right, rgba(89, 9, 7, 0.4), rgba(89, 9, 7, 0.88) 60%);
+}
+
+@media (max-width: 860px) {
+  .cta::after { background: rgba(89, 9, 7, 0.78); }
+}
+
+/* the plain banner (portfolio) sits on sage with dark type */
+.cta--plain {
+  background: var(--sage);
+  color: var(--room-ink);
+  border-top: 0;
+}
+
+.cta--plain .eyebrow--light { color: var(--burgundy); }
+.cta--plain p { color: var(--room-soft); }
+
+/* headings in burgundy, as in the reference (cream where the ground is burgundy or a photo) */
+.display,
+.h2,
+.c-intro__title,
+.story__title { color: var(--burgundy); }
+
+.c-intro__title em { color: var(--ink); }
+
+.section--dark .h2,
+.cta .h2 { color: inherit; }
+
+.cta--plain .h2 { color: var(--burgundy); }
+
+/* light-on-photo buttons and labels turn burgundy on cream; over photographs they stay light */
+.btn--light {
+  color: var(--burgundy);
+  border-color: rgba(89, 9, 7, 0.6);
+}
+
+.eyebrow--light { color: var(--burgundy); }
+
+.cta .btn--light {
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.55);
+}
+
+.cta .eyebrow--light { color: rgba(255, 255, 255, 0.82); }
+.cta--plain .eyebrow--light { color: var(--burgundy); }
