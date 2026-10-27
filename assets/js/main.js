@@ -715,21 +715,9 @@
     check();
   }
 
-  /* ------------------------------------------- About page: counts stay true */
-  function counts() {
-    var galleries = {};
-    photos.forEach(function (p) { galleries[p.cat] = true; });
-    var values = { photos: photos.length, galleries: Object.keys(galleries).length };
-    $$("[data-count]").forEach(function (el) {
-      var v = values[el.getAttribute("data-count")];
-      if (v) el.textContent = v;
-    });
-  }
-
   /* ------------------------------------------------------------------ init */
   $$("[data-year]").forEach(function (el) { el.textContent = new Date().getFullYear(); });
   fillSlots();
-  counts();
   dockBar();
   riseIn();
   inkStatement();
