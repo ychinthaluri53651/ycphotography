@@ -561,12 +561,13 @@
 
   /* ------------------------------------------------ stories: rise into view */
   function riseIn() {
-    var figs = $$("[data-story] figure");
+    var figs = $$("[data-story] figure, .cats .cat");
     if (!figs.length || reduced || !("IntersectionObserver" in window)) return;
+    $$(".cats.reveal").forEach(function (c) { c.classList.remove("reveal"); });  // the cards arrive on their own
     figs.forEach(function (f) {
       var place = Array.prototype.indexOf.call(f.parentNode.children, f);
       f.classList.add("rise");
-      f.style.transitionDelay = (place % 3) * 90 + "ms";
+      f.style.setProperty("--rise-delay", (place % (f.classList.contains("cat") ? 5 : 3)) * 110 + "ms");
     });
     var io = new IntersectionObserver(function (entries) {
       entries.forEach(function (e) {
@@ -577,6 +578,22 @@
       });
     }, { rootMargin: "0px 0px -6% 0px", threshold: 0.1 });
     figs.forEach(function (f) { io.observe(f); });
+  }
+
+  /* ------------------------------- words and gold lines draw themselves in */
+  function animateIn() {
+    if (reduced || !("IntersectionObserver" in window)) return;
+    var targets = $$(".c-intro, .story__head, .chapter");
+    targets.forEach(function (el) { el.classList.add("anim"); });
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) {
+          e.target.classList.add("is-in");
+          io.unobserve(e.target);
+        }
+      });
+    }, { rootMargin: "0px 0px -8% 0px", threshold: 0.2 });
+    targets.forEach(function (el) { io.observe(el); });
   }
 
   /* ------------------------------------------------------- statement ink */
@@ -720,6 +737,7 @@
   fillSlots();
   dockBar();
   riseIn();
+  animateIn();
   inkStatement();
   buildGrid();
   buildFilters();
