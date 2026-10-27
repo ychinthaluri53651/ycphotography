@@ -1857,82 +1857,115 @@ body,
   .g-intro__foot { grid-template-columns: minmax(0, 1fr); }
 }
 
-/* ---------- the galleries as an index ---------- */
-.g-index { padding-bottom: clamp(4.5rem, 10vw, 9rem); }
-.g-index .eyebrow { margin-bottom: 1.25rem; }
+/* ---------- the galleries as covers ---------- */
+.g-covers { padding-bottom: clamp(4.5rem, 10vw, 9rem); }
 
-.g-index__list {
-  list-style: none;
+.g-covers__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.g-covers__head .eyebrow { margin: 0; }
+
+.g-covers__grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: clamp(1.25rem, 2.2vw, 2rem) clamp(0.75rem, 1.6vw, 1.5rem);
   margin: 0;
   padding: 0;
-  border-top: 1px solid var(--ink);
+  list-style: none;
 }
 
-.g-index__row {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto auto;
-  align-items: center;
-  gap: 1.25rem;
-  padding-block: clamp(0.85rem, 2vw, 1.35rem);
-  border-bottom: 1px solid var(--line);
-  transition: color 0.35s var(--ease);
+.g-covers__grid > li {
+  display: flex;
+  min-width: 0;
 }
 
-.g-index__name {
-  font-family: var(--font-display);
-  font-size: clamp(2.1rem, 5.6vw, 5rem);
-  font-weight: 300;
-  line-height: 1;
-  letter-spacing: -0.01em;
-  transition: transform 0.5s var(--ease);
+/* weddings spans both rows and takes whatever height the four beside it make */
+.g-covers__grid > li:first-child { grid-row: span 2; }
+
+.g-cover {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
 }
 
-.g-index__thumb {
-  width: 64px;
+.g-cover__img {
+  position: relative;
+  display: block;
   aspect-ratio: 4 / 5;
   overflow: hidden;
+  background: var(--paper-2);
 }
 
-.g-index__thumb img {
+.g-covers__grid > li:first-child .g-cover__img {
+  flex: 1;
+  min-height: 0;
+  aspect-ratio: auto;
+}
+
+.g-cover__img img {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
+  transition: transform 1.2s var(--ease);
 }
 
-.g-index__arrow { transition: transform 0.5s var(--ease); }
-.g-index__row:hover .g-index__name,
-.g-index__row:focus-visible .g-index__name { transform: translateX(0.75rem); }
-.g-index__row:hover .g-index__arrow { transform: translateX(0.4rem); }
+.g-cover:hover .g-cover__img img { transform: scale(1.04); }
 
-.g-index__float { display: none; }
+.g-cover__name {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-top: 0.85rem;
+  font-family: var(--font-display);
+  font-size: clamp(1.3rem, 1.7vw, 1.65rem);
+  line-height: 1.1;
+}
 
-@media (hover: hover) and (pointer: fine) {
-  .g-index__thumb { display: none; }
-  .g-index__list:hover .g-index__row { color: var(--muted); }
-  .g-index__list .g-index__row:hover { color: var(--ink); }
+.g-covers__grid > li:first-child .g-cover__name { font-size: clamp(1.6rem, 2.4vw, 2.25rem); }
 
-  .g-index__float {
-    position: fixed;
-    left: 0;
-    top: 0;
-    z-index: 60;
-    display: block;
-    width: clamp(220px, 20vw, 320px);
+.g-cover__name svg {
+  flex: none;
+  transition: transform 0.4s var(--ease);
+}
+
+.g-cover:hover .g-cover__name svg,
+.g-cover:focus-visible .g-cover__name svg { transform: translateX(4px); }
+
+/* phones and tablets: a row of covers to swipe through */
+@media (max-width: 860px) {
+  .g-covers__grid {
+    display: flex;
+    gap: 0.75rem;
+    margin-inline: calc(var(--pad) * -1);
+    padding: 0 var(--pad) 0.25rem;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: var(--pad);
+    scrollbar-width: none;
+  }
+
+  .g-covers__grid::-webkit-scrollbar { display: none; }
+
+  .g-covers__grid > li {
+    flex: 0 0 68%;
+    scroll-snap-align: start;
+  }
+
+  .g-covers__grid > li:first-child .g-cover__img {
+    flex: none;
     aspect-ratio: 4 / 5;
-    overflow: hidden;
-    pointer-events: none;
-    opacity: 0;
-    transform: translate3d(calc(var(--x, -999px) + 2rem), calc(var(--y, -999px) - 50%), 0);
-    transition: opacity 0.3s var(--ease), transform 0.35s var(--ease);
   }
 
-  .g-index__float.is-on { opacity: 1; }
-
-  .g-index__float img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
+  .g-covers__grid > li:first-child .g-cover__name { font-size: clamp(1.3rem, 1.7vw, 1.65rem); }
 }
 
 /* ---------- selected work on white ---------- */
