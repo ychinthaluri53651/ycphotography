@@ -401,8 +401,8 @@
       var visual = document.createElement("span");
       visual.setAttribute("aria-hidden", "true");
       Array.prototype.slice.call(p.childNodes).forEach(function (node) {
-        if (node.nodeType !== 3) {            // a photograph counts as a word
-          if (!node.classList.contains("peek")) node.classList.add("w");
+        if (node.nodeType !== 3) {            // e.g. the unbreakable "in-between"
+          node.classList.add("w");
           visual.appendChild(node);
           units.push(node);
           return;

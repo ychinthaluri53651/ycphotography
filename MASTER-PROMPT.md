@@ -133,6 +133,10 @@ about decisions that are genuinely theirs (section 8).
 - **The wedding party walking under the autumn trees (`yc-106`) came off the
   home page at the owner's request.** Don't feature it there again, or its
   near-duplicate `yc-107`. Both remain in the portfolio.
+- **The home page statement ("Hey, I'm Yogananda") is text only.** Small photos
+  set into its sentence were tried and removed at the owner's request. Keep the
+  full-width layout and the scroll-linked ink effect, and keep it tight against
+  Selected work, with no big gap.
 - **Photos from the same shoot sit together and in order,** in the hero and in
   Selected work. Never interleave shoots.
 - **The newest work leads.**
