@@ -58,11 +58,23 @@
   /* ---------------------------------------------------------------- header */
   var header = $(".header");
   if (header && !header.classList.contains("header--static")) {
+    var darkZones = $$(".room, .section--dark, .footer");
+    var headQueued = false;
     var onScroll = function () {
-      header.classList.toggle("is-solid", window.scrollY > 60);
+      headQueued = false;
+      var solid = window.scrollY > 60;
+      var mid = header.offsetHeight / 2;
+      var overDark = solid && darkZones.some(function (z) {
+        var r = z.getBoundingClientRect();
+        return r.top <= mid && r.bottom > mid;
+      });
+      header.classList.toggle("is-solid", solid);
+      header.classList.toggle("is-over-dark", overDark);
     };
     onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("scroll", function () {
+      if (!headQueued) { headQueued = true; requestAnimationFrame(onScroll); }
+    }, { passive: true });
   }
 
   /* ------------------------------------------------------------ mobile nav */
@@ -108,16 +120,46 @@
     var timer = null;
 
     var go = function (i) {
+      var prev = current;
       current = (i + slides.length) % slides.length;
-      slides.forEach(function (s, k) { s.classList.toggle("is-active", k === current); });
+      slides.forEach(function (s, k) {
+        s.classList.toggle("is-leaving", k === prev && k !== current);
+        s.classList.toggle("is-active", k === current);
+      });
       dots.forEach(function (d, k) { d.setAttribute("aria-selected", k === current ? "true" : "false"); });
     };
 
+    // A slow, soft crossfade every 7 s. The visitor can pause it (WCAG 2.2.2),
+    // and it holds still while the pointer or keyboard focus is on the hero.
+    var paused = false;
+    var held = false;
+    var pauseBtn = $(".hero__pause", hero);
+    var pauseLabel = pauseBtn && $("[data-pause-label]", pauseBtn);
+
     var play = function () {
-      if (reduced || slides.length < 2) return;
       clearInterval(timer);
-      timer = setInterval(function () { go(current + 1); }, 6000);
+      if (reduced || paused || held || slides.length < 2) return;
+      timer = setInterval(function () { go(current + 1); }, 7000);
     };
+
+    if (pauseBtn && !reduced && slides.length > 1) {
+      pauseBtn.hidden = false;
+      pauseBtn.addEventListener("click", function () {
+        paused = !paused;
+        hero.classList.toggle("is-paused", paused);
+        pauseBtn.setAttribute("aria-pressed", paused ? "true" : "false");
+        pauseLabel.textContent = paused ? "Play" : "Pause";
+        play();
+      });
+    }
+
+    var hold = function (on) { held = on; play(); };
+    $$(".hero__actions, .hero__dots, .hero__pause", hero).forEach(function (zone) {
+      zone.addEventListener("mouseenter", function () { hold(true); });
+      zone.addEventListener("mouseleave", function () { hold(false); });
+    });
+    hero.addEventListener("focusin", function () { hold(true); });
+    hero.addEventListener("focusout", function (e) { if (!hero.contains(e.relatedTarget)) hold(false); });
 
     dots.forEach(function (d, k) {
       d.addEventListener("click", function () { go(k); play(); });
@@ -337,6 +379,7 @@
       $$(".tile", grid).forEach(function (t) {
         t.hidden = t.dataset.cat !== cat;
       });
+      document.body.setAttribute("data-tone", cat);
       layout();
       if (push) history.replaceState(null, "", location.pathname + "?c=" + cat);
     };
@@ -373,15 +416,48 @@
       if (el.tagName !== "IMG") el.style.background = p.c;
     });
 
-    // featured mosaic opens the lightbox too
-    var mosaic = $("[data-mosaic]");
-    if (mosaic && lb) {
-      var set = $$("figure[data-photo]", mosaic).map(function (f) { return byId[f.dataset.photo]; }).filter(Boolean);
-      $$("figure[data-photo]", mosaic).forEach(function (f, i) {
-        f.style.cursor = "zoom-in";
-        f.addEventListener("click", function () { lbOpen(set, i); });
+    // Selected work: each story opens in the viewer as a whole shoot, in
+    // order, from the photo that was chosen. Mouse and keyboard both work.
+    if (lb) {
+      var groups = $$("[data-story]");
+      if (!groups.length) groups = $$("[data-mosaic]");
+      groups.forEach(function (group) {
+        var figs = $$("[data-mosaic] figure[data-photo], figure[data-photo]", group)
+          .filter(function (f, i, all) { return all.indexOf(f) === i; });
+        var set = figs.map(function (f) { return byId[f.dataset.photo]; }).filter(Boolean);
+        figs.forEach(function (f, i) {
+          var p = byId[f.dataset.photo];
+          f.style.cursor = "zoom-in";
+          f.tabIndex = 0;
+          f.setAttribute("role", "button");
+          if (p) f.setAttribute("aria-label", "Open photo " + (i + 1) + " of " + set.length + ": " + p.alt);
+          f.addEventListener("click", function () { lbOpen(set, i); });
+          f.addEventListener("keydown", function (e) {
+            if (e.key === "Enter" || e.key === " ") { e.preventDefault(); lbOpen(set, i); }
+          });
+        });
       });
     }
+  }
+
+  /* ------------------------------------------------ stories: rise into view */
+  function riseIn() {
+    var figs = $$("[data-story] figure");
+    if (!figs.length || reduced || !("IntersectionObserver" in window)) return;
+    figs.forEach(function (f) {
+      var place = Array.prototype.indexOf.call(f.parentNode.children, f);
+      f.classList.add("rise");
+      f.style.transitionDelay = (place % 3) * 90 + "ms";
+    });
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) {
+          e.target.classList.add("is-in");
+          io.unobserve(e.target);
+        }
+      });
+    }, { rootMargin: "0px 0px -6% 0px", threshold: 0.1 });
+    figs.forEach(function (f) { io.observe(f); });
   }
 
   /* ------------------------------------------------------- statement ink */
@@ -507,6 +583,7 @@
   /* ------------------------------------------------------------------ init */
   $$("[data-year]").forEach(function (el) { el.textContent = new Date().getFullYear(); });
   fillSlots();
+  riseIn();
   inkStatement();
   buildGrid();
   buildFilters();

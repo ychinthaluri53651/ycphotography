@@ -20,7 +20,7 @@
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
 
 <link rel="preload" as="image" href="assets/img/full/yc-131.webp" imagesrcset="assets/img/full/yc-131.webp 1600w" imagesizes="100vw">
-<link rel="stylesheet" href="assets/css/style.css?v=155ac90c">
+<link rel="stylesheet" href="assets/css/style.css?v=4c0e3b9d">
 
 <script type="application/ld+json">
 {
@@ -107,6 +107,12 @@
     <button type="button" role="tab" aria-selected="false" aria-label="Photo 4"></button>
   </div>
 
+  <button class="hero__pause" type="button" aria-pressed="false" hidden>
+    <svg class="i-pause" width="10" height="12" viewBox="0 0 10 12" fill="currentColor" aria-hidden="true"><rect x="1" y="1" width="2.6" height="10"/><rect x="6.4" y="1" width="2.6" height="10"/></svg>
+    <svg class="i-play" width="10" height="12" viewBox="0 0 10 12" fill="currentColor" aria-hidden="true"><path d="M1.5 1v10L9.5 6z"/></svg>
+    <span data-pause-label>Pause</span>
+  </button>
+
   <span class="scrollcue" aria-hidden="true">Scroll</span>
 </section>
 
@@ -126,12 +132,12 @@
 </section>
 
 <!-- ============================= featured ============================= -->
-<section class="section section--tight">
+<section class="section section--tight room" aria-labelledby="work-title">
   <div class="wrap">
     <div class="sechead reveal">
       <div>
         <p class="eyebrow">Selected work</p>
-        <h2 class="h2">A few frames<br>worth slowing down for</h2>
+        <h2 class="h2" id="work-title">A few frames<br>worth slowing down for</h2>
       </div>
       <a class="tlink" href="portfolio.html">
         See the portfolio
@@ -139,27 +145,67 @@
       </a>
     </div>
 
-    <div class="mosaic reveal reveal-d1" data-mosaic>
-      <figure class="m-wide" data-photo="yc-130" data-size="full" data-sizes="(max-width: 560px) 92vw, (max-width: 860px) 92vw, 46vw"><img alt="" loading="lazy" decoding="async"></figure>
-      <figure class="m-wide" data-photo="yc-117" data-size="full" data-sizes="(max-width: 560px) 92vw, (max-width: 860px) 92vw, 46vw"><img alt="" loading="lazy" decoding="async"></figure>
-      <figure class="m-tall" data-photo="yc-122" data-size="full" data-sizes="(max-width: 560px) 92vw, 31vw"><img alt="" loading="lazy" decoding="async"></figure>
-      <figure class="m-tall" data-photo="yc-116" data-size="full" data-sizes="(max-width: 560px) 92vw, 31vw"><img alt="" loading="lazy" decoding="async"></figure>
-      <figure class="m-tall" data-photo="yc-120" data-size="full" data-sizes="(max-width: 560px) 92vw, 31vw"><img alt="" loading="lazy" decoding="async"></figure>
-      <figure class="m-tall" data-photo="yc-112" data-size="full" data-sizes="(max-width: 560px) 92vw, 31vw"><img alt="" loading="lazy" decoding="async"></figure>
-      <figure class="m-tall" data-photo="yc-123" data-size="full" data-sizes="(max-width: 560px) 92vw, 31vw"><img alt="" loading="lazy" decoding="async"></figure>
-      <figure class="m-tall" data-photo="yc-113" data-size="full" data-sizes="(max-width: 560px) 92vw, 31vw"><img alt="" loading="lazy" decoding="async"></figure>
-      <figure class="m-tall" data-photo="yc-141" data-size="full" data-sizes="(max-width: 560px) 92vw, 31vw"><img alt="" loading="lazy" decoding="async"></figure>
-      <figure class="m-tall" data-photo="yc-136" data-size="full" data-sizes="(max-width: 560px) 92vw, 31vw"><img alt="" loading="lazy" decoding="async"></figure>
-      <figure class="m-tall" data-photo="yc-137" data-size="full" data-sizes="(max-width: 560px) 92vw, 31vw"><img alt="" loading="lazy" decoding="async"></figure>
-      <figure class="m-tall" data-photo="yc-133" data-size="full" data-sizes="(max-width: 560px) 92vw, 31vw"><img alt="" loading="lazy" decoding="async"></figure>
-      <figure class="m-tall" data-photo="yc-138" data-size="full" data-sizes="(max-width: 560px) 92vw, 31vw"><img alt="" loading="lazy" decoding="async"></figure>
-      <figure class="m-tall" data-photo="yc-143" data-size="full" data-sizes="(max-width: 560px) 92vw, 31vw"><img alt="" loading="lazy" decoding="async"></figure>
-      <figure class="m-wide" data-photo="yc-104" data-size="full" data-sizes="(max-width: 560px) 92vw, (max-width: 860px) 92vw, 46vw"><img alt="" loading="lazy" decoding="async"></figure>
-      <figure class="m-wide" data-photo="yc-105" data-size="full" data-sizes="(max-width: 560px) 92vw, (max-width: 860px) 92vw, 46vw"><img alt="" loading="lazy" decoding="async"></figure>
-      <figure class="m-tall" data-photo="yc-097" data-size="full" data-sizes="(max-width: 560px) 92vw, 31vw"><img alt="" loading="lazy" decoding="async"></figure>
-      <figure class="m-tall" data-photo="yc-090" data-size="full" data-sizes="(max-width: 560px) 92vw, 31vw"><img alt="" loading="lazy" decoding="async"></figure>
-      <figure class="m-tall" data-photo="yc-095" data-size="full" data-sizes="(max-width: 560px) 92vw, 31vw"><img alt="" loading="lazy" decoding="async"></figure>
-    </div>
+    <article class="story" data-story data-tone="weddings">
+      <header class="story__head">
+        <span class="story__num">01</span>
+        <h3 class="story__title">An autumn wedding</h3>
+        <p class="story__meta">Wedding · 8 frames</p>
+      </header>
+      <p class="chapter">Before the vows, by the water</p>
+      <div class="mosaic" data-mosaic>
+        <figure class="m-tall" data-photo="yc-110" data-size="full" data-sizes="(max-width: 560px) 46vw, 31vw"><img alt="" loading="lazy" decoding="async"></figure>
+        <figure class="m-tall" data-photo="yc-112" data-size="full" data-sizes="(max-width: 560px) 46vw, 31vw"><img alt="" loading="lazy" decoding="async"></figure>
+        <figure class="m-tall" data-photo="yc-113" data-size="full" data-sizes="(max-width: 560px) 46vw, 31vw"><img alt="" loading="lazy" decoding="async"></figure>
+      </div>
+      <p class="chapter">The vows</p>
+      <div class="mosaic" data-mosaic>
+        <figure class="m-tall" data-photo="yc-120" data-size="full" data-sizes="(max-width: 560px) 46vw, 31vw"><img alt="" loading="lazy" decoding="async"></figure>
+        <figure class="m-tall" data-photo="yc-122" data-size="full" data-sizes="(max-width: 560px) 46vw, 31vw"><img alt="" loading="lazy" decoding="async"></figure>
+        <figure class="m-tall" data-photo="yc-123" data-size="full" data-sizes="(max-width: 560px) 46vw, 31vw"><img alt="" loading="lazy" decoding="async"></figure>
+      </div>
+      <p class="chapter">Everyone who came</p>
+      <div class="mosaic" data-mosaic>
+        <figure class="m-wide" data-photo="yc-130" data-size="full" data-sizes="(max-width: 860px) 92vw, 46vw"><img alt="" loading="lazy" decoding="async"></figure>
+        <figure class="m-wide" data-photo="yc-117" data-size="full" data-sizes="(max-width: 860px) 92vw, 46vw"><img alt="" loading="lazy" decoding="async"></figure>
+      </div>
+    </article>
+    <article class="story" data-story data-tone="birthdays">
+      <header class="story__head">
+        <span class="story__num">02</span>
+        <h3 class="story__title">A first birthday</h3>
+        <p class="story__meta">Birthday · 6 frames</p>
+      </header>
+      <p class="chapter">Mom, dad and a lot of balloons</p>
+      <div class="mosaic" data-mosaic>
+        <figure class="m-tall" data-photo="yc-133" data-size="full" data-sizes="(max-width: 560px) 46vw, 31vw"><img alt="" loading="lazy" decoding="async"></figure>
+        <figure class="m-tall" data-photo="yc-136" data-size="full" data-sizes="(max-width: 560px) 46vw, 31vw"><img alt="" loading="lazy" decoding="async"></figure>
+        <figure class="m-tall" data-photo="yc-137" data-size="full" data-sizes="(max-width: 560px) 46vw, 31vw"><img alt="" loading="lazy" decoding="async"></figure>
+      </div>
+      <p class="chapter">And then she found the car</p>
+      <div class="mosaic" data-mosaic>
+        <figure class="m-tall" data-photo="yc-138" data-size="full" data-sizes="(max-width: 560px) 46vw, 31vw"><img alt="" loading="lazy" decoding="async"></figure>
+        <figure class="m-tall" data-photo="yc-141" data-size="full" data-sizes="(max-width: 560px) 46vw, 31vw"><img alt="" loading="lazy" decoding="async"></figure>
+        <figure class="m-tall" data-photo="yc-143" data-size="full" data-sizes="(max-width: 560px) 46vw, 31vw"><img alt="" loading="lazy" decoding="async"></figure>
+      </div>
+    </article>
+    <article class="story" data-story data-tone="photoshoots">
+      <header class="story__head">
+        <span class="story__num">03</span>
+        <h3 class="story__title">Portraits, a baby shower and the stage</h3>
+        <p class="story__meta">Photoshoots · 5 frames</p>
+      </header>
+      <p class="chapter">Outdoors, in good light</p>
+      <div class="mosaic" data-mosaic>
+        <figure class="m-wide" data-photo="yc-104" data-size="full" data-sizes="(max-width: 860px) 92vw, 46vw"><img alt="" loading="lazy" decoding="async"></figure>
+        <figure class="m-wide" data-photo="yc-105" data-size="full" data-sizes="(max-width: 860px) 92vw, 46vw"><img alt="" loading="lazy" decoding="async"></figure>
+      </div>
+      <p class="chapter">A baby shower, then two dancers</p>
+      <div class="mosaic" data-mosaic>
+        <figure class="m-tall" data-photo="yc-97" data-size="full" data-sizes="(max-width: 560px) 46vw, 31vw"><img alt="" loading="lazy" decoding="async"></figure>
+        <figure class="m-tall" data-photo="yc-90" data-size="full" data-sizes="(max-width: 560px) 46vw, 31vw"><img alt="" loading="lazy" decoding="async"></figure>
+        <figure class="m-tall" data-photo="yc-95" data-size="full" data-sizes="(max-width: 560px) 46vw, 31vw"><img alt="" loading="lazy" decoding="async"></figure>
+      </div>
+    </article>
   </div>
 </section>
 
@@ -335,6 +381,6 @@
 </div>
 
 <script src="assets/js/photos.js?v=263be3c4"></script>
-<script src="assets/js/main.js?v=b4b28c59"></script>
+<script src="assets/js/main.js?v=6a996903"></script>
 </body>
 </html>

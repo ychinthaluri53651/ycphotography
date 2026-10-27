@@ -32,15 +32,17 @@
 }
 
 :root {
-  --paper: #faf8f5;
-  --paper-2: #f2eee8;
+  --paper: #f9f5ee;
+  --paper-2: #f1ebe1;
   --ink: #17150f;
   --ink-soft: #4a453d;
-  --muted: #7c756b;
+  --muted: #6b6459;
   --line: rgba(23, 21, 15, 0.12);
   --ink-ghost: rgba(23, 21, 15, 0.22);
-  --accent: #a9754f;
-  --accent-deep: #8a5c3c;
+  --accent: #8f5f3e;
+  --accent-deep: #7a5034;
+  --on-light: #17150f;          /* text on white or pale fills - never flips */
+  --on-dark: #faf8f5;           /* text on dark fills - never flips */
   --dark: #0f0e0d;
   --dark-2: #191713;
 
@@ -54,6 +56,28 @@
 
   --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
   --slow: 0.8s var(--ease);
+  --fade-slow: 2.4s;            /* hero crossfade: long and soft */
+  --drift: 14s;                 /* hero slow zoom */
+
+  /* gallery ("dark room") palette, used for Selected work and the portfolio */
+  --room: #121110;
+  --room-2: #1b1915;
+  --room-ink: #f1ece4;
+  --room-soft: #cfc7bb;
+  --room-muted: #a59d91;
+  --room-line: rgba(241, 236, 228, 0.13);
+  --room-accent: #d4a07a;
+
+  /* one colour per gallery, for use on the dark room */
+  --tone-weddings: #e2b05e;     /* marigold */
+  --tone-birthdays: #ee9c87;    /* coral */
+  --tone-half-saree: #e8a5bd;   /* rose */
+  --tone-baby-shower: #c3b1e1;  /* lilac */
+  --tone-photoshoots: #b5c9a5;  /* sage */
+
+  /* a faint film grain on paper and dark backgrounds, never on photographs */
+  --grain: url("../img/grain.png");
+  --grain-size: 100px;
 }
 
 /* ---------- reset ---------- */
@@ -157,7 +181,7 @@ section { position: relative; }
 
 .section--dark {
   background: var(--dark);
-  color: var(--paper);
+  color: var(--on-dark);
 }
 
 .section--paper2 { background: var(--paper-2); }
@@ -207,18 +231,18 @@ section { position: relative; }
 .btn--light:hover {
   background: #fff;
   border-color: #fff;
-  color: var(--ink);
+  color: var(--on-light);
 }
 
 .btn--solid-light {
   background: #fff;
   border-color: #fff;
-  color: var(--ink);
+  color: var(--on-light);
 }
 
 .btn--solid-light:hover {
-  background: var(--accent);
-  border-color: var(--accent);
+  background: var(--accent-deep);
+  border-color: var(--accent-deep);
   color: #fff;
 }
 
@@ -273,7 +297,7 @@ section { position: relative; }
 }
 
 .header.is-solid {
-  background: rgba(250, 248, 245, 0.94);
+  background: rgba(249, 245, 238, 0.94);
   backdrop-filter: saturate(140%) blur(14px);
   color: var(--ink);
   height: 66px;
@@ -282,9 +306,17 @@ section { position: relative; }
 
 .header.is-solid::after { opacity: 0; }
 
+.header.is-solid.is-over-dark {
+  background: rgba(18, 17, 16, 0.92);
+  color: var(--on-dark);
+  box-shadow: 0 1px 0 var(--room-line);
+}
+
+.header.is-over-dark .nav a[aria-current="page"] { color: var(--room-accent); }
+
 /* pages without a dark hero start solid */
 .header.header--static {
-  background: rgba(250, 248, 245, 0.94);
+  background: rgba(249, 245, 238, 0.94);
   backdrop-filter: saturate(140%) blur(14px);
   color: var(--ink);
   box-shadow: 0 1px 0 var(--line);
@@ -357,8 +389,8 @@ section { position: relative; }
 .nav__cta::after { display: none; }
 
 .nav__cta:hover {
-  background: var(--accent);
-  border-color: var(--accent);
+  background: var(--accent-deep);
+  border-color: var(--accent-deep);
   color: #fff;
 }
 
@@ -392,7 +424,7 @@ body.is-menu-open .burger span:nth-child(2) { transform: translateY(-3.5px) rota
   inset: 0;
   z-index: 95;
   background: var(--dark);
-  color: var(--paper);
+  color: var(--on-dark);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -452,35 +484,70 @@ body.is-menu-open .menu a {
 .hero__slides {
   position: absolute;
   inset: 0;
+  z-index: 0;
 }
 
 .hero__slide {
   position: absolute;
   inset: 0;
+  z-index: 0;
   opacity: 0;
-  transition: opacity 1.6s var(--ease);
+  transition: opacity var(--fade-slow) ease-in-out;
+}
+
+.hero__slide.is-leaving {
+  z-index: 1;
+  opacity: 1;
+  transition: none;
 }
 
 .hero__slide img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transform: scale(1.06);
+  transform: scale(1.02);
 }
 
 .hero__slide.is-active {
   opacity: 1;
-  z-index: 1;
+  z-index: 2;
 }
 
-.hero__slide.is-active img {
-  animation: kenburns 9s var(--ease) forwards;
+.hero__slide.is-active img,
+.hero__slide.is-leaving img {
+  animation: kenburns var(--drift) linear forwards;
 }
+
+.hero.is-paused .hero__slide.is-active img { animation-play-state: paused; }
 
 @keyframes kenburns {
   from { transform: scale(1.02); }
-  to { transform: scale(1.12); }
+  to { transform: scale(1.08); }
 }
+
+/* pause / play for the slideshow */
+.hero__pause {
+  position: absolute;
+  right: var(--pad);
+  bottom: 1.25rem;
+  z-index: 4;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  min-height: 44px;
+  padding-inline: 0.25rem;
+  font-size: 0.62rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.82);
+  transition: color 0.3s var(--ease);
+}
+
+.hero__pause:hover { color: #fff; }
+.hero__pause svg { flex: none; }
+.hero__pause .i-play { display: none; }
+.hero.is-paused .hero__pause .i-play { display: block; }
+.hero.is-paused .hero__pause .i-pause { display: none; }
 
 .hero::after {
   content: "";
@@ -679,6 +746,127 @@ body.is-menu-open .menu a {
 }
 
 .sechead p.lede { margin-top: 0.9rem; }
+
+/* ==========================================================================
+   the dark room: galleries sit on deep charcoal so the photographs glow
+   ========================================================================== */
+.room {
+  --paper: var(--room);
+  --paper-2: var(--room-2);
+  --ink: var(--room-ink);
+  --ink-soft: var(--room-soft);
+  --muted: var(--room-muted);
+  --line: var(--room-line);
+  --accent: var(--room-accent);
+  background: var(--room);
+  color: var(--room-ink);
+}
+
+body.room .header.header--static,
+body.room .filters { background: rgba(18, 17, 16, 0.92); }
+body.room .filter[aria-pressed="true"] {
+  background: var(--tone, var(--room-ink));
+  border-color: var(--tone, var(--room-ink));
+  color: var(--room);
+}
+body.room .pagehead .eyebrow { color: var(--tone, var(--accent)); transition: color 0.4s var(--ease); }
+body.room .filters {
+  border-bottom-color: var(--line);
+  border-bottom-color: color-mix(in srgb, var(--tone, var(--room-line)) 45%, transparent);
+  transition: border-color 0.4s var(--ease);
+}
+body.room .tile__zoom { background: rgba(18, 17, 16, 0.85); color: var(--room-ink); }
+body.room .btn--ghost { color: var(--room-ink); border-color: var(--room-ink); }
+body.room .footer { border-top: 1px solid var(--room-line); }
+
+/* ==========================================================================
+   stories: each shoot told in order, in short chapters
+   ========================================================================== */
+.story + .story {
+  margin-top: clamp(4rem, 9vw, 7.5rem);
+  padding-top: clamp(2.5rem, 5vw, 4rem);
+  border-top: 1px solid var(--line);
+}
+
+.story__head {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  column-gap: clamp(1rem, 3vw, 2.5rem);
+  align-items: baseline;
+  margin-bottom: clamp(1.5rem, 3vw, 2.25rem);
+}
+
+[data-tone="weddings"] { --tone: var(--tone-weddings); }
+[data-tone="birthdays"] { --tone: var(--tone-birthdays); }
+[data-tone="half-saree"] { --tone: var(--tone-half-saree); }
+[data-tone="baby-shower"] { --tone: var(--tone-baby-shower); }
+[data-tone="photoshoots"] { --tone: var(--tone-photoshoots); }
+
+.story__num {
+  font-family: var(--font-display);
+  font-size: clamp(1.1rem, 2vw, 1.4rem);
+  color: var(--tone, var(--accent));
+  font-variant-numeric: tabular-nums;
+}
+
+.story__num::after {
+  content: "";
+  display: block;
+  width: 1.6em;
+  height: 1px;
+  margin-top: 0.45em;
+  background: var(--tone, var(--accent));
+}
+
+.story__title {
+  font-size: clamp(2rem, 4.2vw, 3.25rem);
+  font-style: italic;
+}
+
+.story__meta {
+  grid-column: 2;
+  margin-top: 0.6rem;
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.chapter {
+  display: flex;
+  align-items: baseline;
+  gap: 0.9rem;
+  margin: clamp(1.75rem, 3.5vw, 2.75rem) 0 0.9rem;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(1.15rem, 1.8vw, 1.4rem);
+  color: var(--ink-soft);
+}
+
+.chapter:first-of-type { margin-top: 0; }
+
+.chapter::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--line);
+  transform: translateY(-0.3em);
+}
+
+.mosaic + .mosaic { margin-top: var(--gap); }
+
+/* photographs in a story rise in, row by row, as they scroll into view
+   (the class is only added by the script, and never with reduced motion) */
+.rise {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.6s var(--ease), transform 0.6s var(--ease);
+}
+
+.rise.is-in { opacity: 1; transform: none; }
+
+.mosaic figure:focus-visible { outline-offset: 2px; }
 
 /* ==========================================================================
    featured mosaic
@@ -887,7 +1075,7 @@ body.is-menu-open .menu a {
   position: sticky;
   top: 66px;
   z-index: 40;
-  background: rgba(250, 248, 245, 0.93);
+  background: rgba(249, 245, 238, 0.93);
   backdrop-filter: saturate(140%) blur(12px);
   border-block: 1px solid var(--line);
   margin-bottom: clamp(1.5rem, 3vw, 2.5rem);
@@ -1364,6 +1552,19 @@ body.is-menu-open .menu a {
 .reveal-d3 { transition-delay: 0.24s; }
 
 /* ==========================================================================
+   paper texture: a faint grain on backgrounds only, so photographs stay clean
+   ========================================================================== */
+body,
+.section--paper2,
+.section--dark,
+.room,
+.footer,
+.menu {
+  background-image: var(--grain);
+  background-size: var(--grain-size);
+}
+
+/* ==========================================================================
    responsive
    ========================================================================== */
 @media (max-width: 1100px) {
@@ -1413,13 +1614,20 @@ body.is-menu-open .menu a {
 
 @media (max-width: 560px) {
   /* photographs deserve the full width on a phone */
-  .m-wide, .m-tall { grid-column: span 12; }
-  .m-tall { aspect-ratio: 4 / 5; }
+  .m-wide { grid-column: span 12; }
+  .m-tall { grid-column: span 12; aspect-ratio: 4 / 5; }
+  /* in a story, a chapter of three tall frames becomes one large and two
+     beside each other underneath - still gapless, a third less scrolling */
+  .story .m-tall { grid-column: span 6; aspect-ratio: 2 / 3; }
+  .story .m-tall:nth-child(3n + 1) { grid-column: span 12; aspect-ratio: 4 / 5; }
+  .story__head { grid-template-columns: minmax(0, 1fr); }
+  .story__meta { grid-column: 1; }
 
   .grid { grid-template-columns: 1fr; }
   .field--half { grid-template-columns: 1fr; }
   .footer__top { grid-template-columns: 1fr; }
   .hero__actions .btn { flex: 1 1 100%; justify-content: center; }
+  .scrollcue { display: none; }   /* it collided with the buttons; the pause control takes the corner */
   .split__badge { position: static; display: inline-block; margin-top: 1rem; }
 }
 
@@ -1433,7 +1641,7 @@ body.is-menu-open .menu a {
     scroll-behavior: auto !important;
   }
 
-  .reveal, .tile { opacity: 1; transform: none; }
+  .reveal, .tile, .rise { opacity: 1; transform: none; }
 }
 
 @media print {
