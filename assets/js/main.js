@@ -52,7 +52,8 @@
   function full(p) { return "assets/img/full/" + p.id + ".webp"; }
 
   // let the browser pick the rendition that suits the slot and the screen
-  function smallSet(p) { return thumb(p) + " 900w, " + full(p) + " 1600w"; }
+  function widthAt(p, edge) { return p.w >= p.h ? edge : Math.round(edge * p.w / p.h); }
+  function smallSet(p) { return thumb(p) + " " + widthAt(p, 900) + "w, " + full(p) + " " + widthAt(p, 1600) + "w"; }
   function largeSet(p) { return smallSet(p); }   // 1600px is the largest copy published
 
   /* ---------------------------------------------------------------- header */
@@ -118,6 +119,8 @@
     var dots = $$(".hero__dots button", hero);
     var current = 0;
     var timer = null;
+    var countEl = $("[data-hero-index]", hero);
+    var captionEl = $("[data-hero-caption]", hero);
 
     var go = function (i) {
       var prev = current;
@@ -126,7 +129,12 @@
         s.classList.toggle("is-leaving", k === prev && k !== current);
         s.classList.toggle("is-active", k === current);
       });
-      dots.forEach(function (d, k) { d.setAttribute("aria-selected", k === current ? "true" : "false"); });
+      dots.forEach(function (d, k) {
+        if (k === current) d.setAttribute("aria-current", "true");
+        else d.removeAttribute("aria-current");
+      });
+      if (countEl) countEl.textContent = (current < 9 ? "0" : "") + (current + 1);
+      if (captionEl) captionEl.textContent = slides[current].getAttribute("data-caption") || "";
     };
 
     // A slow, soft crossfade every 7 s. The visitor can pause it (WCAG 2.2.2),
@@ -134,7 +142,6 @@
     var paused = false;
     var held = false;
     var pauseBtn = $(".hero__pause", hero);
-    var pauseLabel = pauseBtn && $("[data-pause-label]", pauseBtn);
 
     var play = function () {
       clearInterval(timer);
@@ -147,8 +154,7 @@
       pauseBtn.addEventListener("click", function () {
         paused = !paused;
         hero.classList.toggle("is-paused", paused);
-        pauseBtn.setAttribute("aria-pressed", paused ? "true" : "false");
-        pauseLabel.textContent = paused ? "Play" : "Pause";
+        pauseBtn.setAttribute("aria-label", paused ? "Play the slideshow" : "Pause the slideshow");
         play();
       });
     }
@@ -164,6 +170,22 @@
     dots.forEach(function (d, k) {
       d.addEventListener("click", function () { go(k); play(); });
     });
+
+    // swipe the photo on a phone to move between slides
+    var stage = $(".hero__slides", hero);
+    var hx = 0;
+    var hy = 0;
+    if (stage && slides.length > 1) {
+      stage.addEventListener("touchstart", function (e) {
+        hx = e.changedTouches[0].clientX;
+        hy = e.changedTouches[0].clientY;
+      }, { passive: true });
+      stage.addEventListener("touchend", function (e) {
+        var dx = e.changedTouches[0].clientX - hx;
+        var dy = e.changedTouches[0].clientY - hy;
+        if (Math.abs(dx) > 45 && Math.abs(dx) > Math.abs(dy)) { go(current + (dx < 0 ? 1 : -1)); play(); }
+      }, { passive: true });
+    }
 
     document.addEventListener("visibilitychange", function () {
       if (document.hidden) { clearInterval(timer); } else { play(); }
@@ -190,13 +212,38 @@
     i.src = full(p);
   }
 
-  function lbShow(i) {
+  var lbOrigins = [];
+  var lbToken = 0;
+  var root = document.documentElement;
+  var canMorph = !!document.startViewTransition && !reduced;
+
+  function originImg(el) {
+    if (!el) return null;
+    var img = el.tagName === "IMG" ? el : $("img", el);
+    return img && img.complete && img.naturalWidth ? img : null;
+  }
+
+  function onScreen(el) {
+    var r = el.getBoundingClientRect();
+    return r.bottom > 0 && r.top < window.innerHeight && r.width > 0;
+  }
+
+  // quick: the copy already on screen, shown at once while the sharper one loads
+  function lbShow(i, quick) {
     lbIndex = (i + lbSet.length) % lbSet.length;
     var p = lbSet[lbIndex];
-    lbImg.classList.remove("is-ready");
+    var token = ++lbToken;
     lbImg.alt = p.alt;
+    if (quick) {
+      lbImg.removeAttribute("srcset");
+      lbImg.src = quick;
+      lbImg.classList.add("is-ready");
+    } else {
+      lbImg.classList.remove("is-ready");
+    }
     var next = new Image();
     next.onload = function () {
+      if (token !== lbToken) return;          // the viewer has moved on
       lbImg.sizes = "100vw";
       lbImg.srcset = smallSet(p);
       lbImg.src = next.currentSrc || next.src;
@@ -212,22 +259,77 @@
     preload(lbSet[(lbIndex - 1 + lbSet.length) % lbSet.length]);
   }
 
-  function lbOpen(set, i) {
-    if (!lb) return;
-    lbSet = set;
-    lastFocus = document.activeElement;
+  function lbReveal() {
     lb.classList.add("is-open");
     lb.setAttribute("aria-hidden", "false");
     document.body.classList.add("is-locked");
-    lbShow(i);
-    $(".lb__close", lb).focus();
   }
 
-  function lbClose() {
+  function lbHide() {
     lb.classList.remove("is-open");
     lb.setAttribute("aria-hidden", "true");
     document.body.classList.remove("is-locked");
-    if (lastFocus) lastFocus.focus();
+  }
+
+  // origins: the elements on the page the photos open from, in the same order
+  function lbOpen(set, i, origins) {
+    if (!lb) return;
+    lbSet = set;
+    lbOrigins = origins || [];
+    lastFocus = document.activeElement;
+    var from = originImg(lbOrigins[i]);
+
+    if (!canMorph || !from) {
+      lbReveal();
+      lbShow(i);
+      $(".lb__close", lb).focus();
+      return;
+    }
+
+    from.style.viewTransitionName = "lb-photo";
+    root.classList.add("is-morphing");
+    var vt = document.startViewTransition(function () {
+      from.style.viewTransitionName = "";
+      lbReveal();
+      lbShow(i, from.currentSrc || from.src);
+      lbImg.style.viewTransitionName = "lb-photo";
+      $(".lb__close", lb).focus({ preventScroll: true });
+      return lbImg.decode ? lbImg.decode().catch(function () {}) : null;
+    });
+    var done = function () {
+      lbImg.style.viewTransitionName = "";
+      root.classList.remove("is-morphing");
+    };
+    vt.finished.then(done, done);
+  }
+
+  function lbClose() {
+    var to = originImg(lbOrigins[lbIndex]);
+    // focus returns to the photo the viewer ended on, or else where it began
+    var landing = lbOrigins[lbIndex] || lastFocus;
+    var back = function () {
+      if (landing) landing.focus({ preventScroll: true });
+    };
+
+    if (!canMorph || !to || !onScreen(to) || !lbImg.classList.contains("is-ready")) {
+      lbHide();
+      back();
+      return;
+    }
+
+    lbImg.style.viewTransitionName = "lb-photo";
+    root.classList.add("is-morphing");
+    var vt = document.startViewTransition(function () {
+      lbImg.style.viewTransitionName = "";
+      lbHide();
+      to.style.viewTransitionName = "lb-photo";
+    });
+    var done = function () {
+      to.style.viewTransitionName = "";
+      root.classList.remove("is-morphing");
+    };
+    vt.finished.then(done, done);
+    back();
   }
 
   if (lb) {
@@ -306,9 +408,10 @@
     };
 
     var openFrom = function (tile) {
-      var set = visible().map(function (t) { return photos[+t.dataset.index]; });
+      var tiles = visible();
+      var set = tiles.map(function (t) { return photos[+t.dataset.index]; });
       var me = photos[+tile.dataset.index];
-      lbOpen(set, set.indexOf(me));
+      lbOpen(set, set.indexOf(me), tiles);
     };
 
     grid.addEventListener("click", function (e) {
@@ -431,9 +534,9 @@
           f.tabIndex = 0;
           f.setAttribute("role", "button");
           if (p) f.setAttribute("aria-label", "Open photo " + (i + 1) + " of " + set.length + ": " + p.alt);
-          f.addEventListener("click", function () { lbOpen(set, i); });
+          f.addEventListener("click", function () { lbOpen(set, i, figs); });
           f.addEventListener("keydown", function (e) {
-            if (e.key === "Enter" || e.key === " ") { e.preventDefault(); lbOpen(set, i); }
+            if (e.key === "Enter" || e.key === " ") { e.preventDefault(); lbOpen(set, i, figs); }
           });
         });
       });

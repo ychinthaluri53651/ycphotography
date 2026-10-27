@@ -306,6 +306,10 @@ section { position: relative; }
 
 .header.is-solid::after { opacity: 0; }
 
+/* the home page hero is paper now, so its header starts dark-on-paper */
+.header--paper { color: var(--ink); }
+.header--paper::after { opacity: 0; }
+
 .header.is-solid.is-over-dark {
   background: rgba(18, 17, 16, 0.92);
   color: var(--on-dark);
@@ -468,23 +472,48 @@ body.is-menu-open .menu a {
 }
 
 /* ==========================================================================
-   hero
+   hero: words on paper and the photographs whole beside them, so no text
+   ever sits on a face. Phones and tablets stack it: headline, photo,
+   controls, then the text and buttons.
    ========================================================================== */
 .hero {
-  position: relative;
-  height: 100svh;
-  min-height: 620px;
-  display: flex;
-  align-items: flex-end;
-  overflow: hidden;
-  background: var(--dark);
-  color: #fff;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-areas:
+    "head"
+    "photo"
+    "controls"
+    "meta";
+  padding-top: var(--nav-h);
+  color: var(--ink);
+}
+
+.hero__head {
+  grid-area: head;
+  padding: clamp(1.75rem, 6vw, 3rem) var(--pad) clamp(1.5rem, 4vw, 2.25rem);
+}
+
+.hero__head .eyebrow { margin-bottom: 1rem; }
+
+.hero__title {
+  font-size: clamp(2.6rem, 8.6vw, 5.75rem);
+  line-height: 0.98;
+  max-width: 13ch;
+}
+
+.hero__title em {
+  font-style: italic;
+  color: var(--accent);
 }
 
 .hero__slides {
-  position: absolute;
-  inset: 0;
+  grid-area: photo;
+  position: relative;
   z-index: 0;
+  overflow: hidden;
+  aspect-ratio: 3 / 2;
+  background: var(--paper-2);
+  touch-action: pan-y;
 }
 
 .hero__slide {
@@ -495,22 +524,23 @@ body.is-menu-open .menu a {
   transition: opacity var(--fade-slow) ease-in-out;
 }
 
+/* the outgoing photo stays put underneath while the next fades in on top,
+   so there is no dark dip and no jump in the slow zoom */
 .hero__slide.is-leaving {
   z-index: 1;
   opacity: 1;
   transition: none;
 }
 
+.hero__slide.is-active {
+  z-index: 2;
+  opacity: 1;
+}
+
 .hero__slide img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transform: scale(1.02);
-}
-
-.hero__slide.is-active {
-  opacity: 1;
-  z-index: 2;
 }
 
 .hero__slide.is-active img,
@@ -521,132 +551,130 @@ body.is-menu-open .menu a {
 .hero.is-paused .hero__slide.is-active img { animation-play-state: paused; }
 
 @keyframes kenburns {
-  from { transform: scale(1.02); }
-  to { transform: scale(1.08); }
+  from { transform: scale(1); }
+  to { transform: scale(1.06); }
 }
 
-/* pause / play for the slideshow */
-.hero__pause {
-  position: absolute;
-  right: var(--pad);
-  bottom: 1.25rem;
-  z-index: 4;
-  display: inline-flex;
+.hero__controls {
+  grid-area: controls;
+  padding: 0.25rem var(--pad) 0;
+}
+
+.hero__caption {
+  display: none;
+  margin: 0 0 0.35rem;
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+}
+
+.hero__nav {
+  display: flex;
   align-items: center;
-  gap: 0.55rem;
-  min-height: 44px;
-  padding-inline: 0.25rem;
-  font-size: 0.62rem;
-  letter-spacing: 0.24em;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.82);
-  transition: color 0.3s var(--ease);
+  justify-content: flex-end;
+  gap: 0.5rem;
 }
 
-.hero__pause:hover { color: #fff; }
-.hero__pause svg { flex: none; }
+.hero__count {
+  margin-right: 0.5rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.2em;
+  color: var(--ink-soft);
+  font-variant-numeric: tabular-nums;
+}
+
+.hero__dots { display: flex; }
+
+/* 30 x 44 px to tap, a short line to see */
+.hero__dots button {
+  position: relative;
+  width: 30px;
+  height: 44px;
+}
+
+.hero__dots button::before {
+  content: "";
+  position: absolute;
+  left: 4px;
+  right: 4px;
+  top: 50%;
+  height: 2px;
+  margin-top: -1px;
+  background: var(--ink-ghost);
+  transition: background 0.3s var(--ease);
+}
+
+.hero__dots button:hover::before { background: var(--muted); }
+.hero__dots button[aria-current="true"]::before { background: var(--ink); }
+
+.hero__pause {
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  color: var(--ink);
+}
+
+.hero__pause-ring {
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--ink-ghost);
+  border-radius: 50%;
+  transition: border-color 0.3s var(--ease), background 0.3s var(--ease);
+}
+
+.hero__pause:hover .hero__pause-ring { border-color: var(--ink); }
 .hero__pause .i-play { display: none; }
 .hero.is-paused .hero__pause .i-play { display: block; }
 .hero.is-paused .hero__pause .i-pause { display: none; }
 
-.hero::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-  background:
-    linear-gradient(to top, rgba(8, 8, 8, 0.78) 0%, rgba(8, 8, 8, 0.25) 42%, rgba(8, 8, 8, 0.35) 100%);
-}
-
-.hero__inner {
-  position: relative;
-  z-index: 3;
-  width: 100%;
-  padding-bottom: clamp(3.5rem, 8vh, 6rem);
-}
-
-.hero__title {
-  font-size: clamp(3rem, 9.5vw, 8rem);
-  line-height: 0.92;
-  max-width: 15ch;
-  text-shadow: 0 2px 40px rgba(0, 0, 0, 0.25);
-}
-
-.hero__title em {
-  font-style: italic;
-  color: #f0d9c4;
-}
-
 .hero__meta {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 2rem;
-  margin-top: 2.25rem;
+  grid-area: meta;
+  padding: 0.75rem var(--pad) clamp(2.75rem, 8vw, 4.5rem);
 }
 
 .hero__sub {
   max-width: 46ch;
-  color: rgba(255, 255, 255, 0.82);
-  font-size: 1.02rem;
+  color: var(--ink-soft);
+  font-size: clamp(1rem, 1.3vw, 1.08rem);
 }
 
 .hero__actions {
   display: flex;
   flex-wrap: wrap;
   gap: 0.9rem;
+  margin-top: 1.75rem;
 }
 
-.hero__dots {
-  position: absolute;
-  right: var(--pad);
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 4;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 0.7rem;
-}
+@media (min-width: 1100px) {
+  .hero {
+    grid-template-columns: clamp(420px, 40vw, 620px) minmax(0, 1fr);
+    grid-template-rows: 1fr auto auto;
+    grid-template-areas:
+      "head photo"
+      "meta photo"
+      "controls photo";
+    min-height: max(660px, 100svh);   /* grows rather than overlapping the menu bar */
+  }
 
-.hero__dots button {
-  width: 22px;
-  height: 2px;
-  background: rgba(255, 255, 255, 0.35);
-  transition: background 0.3s var(--ease);
-}
+  .hero__title { font-size: clamp(3rem, 4.6vw, 4.75rem); }
 
-.hero__dots button[aria-selected="true"] { background: #fff; }
+  .hero__slides { aspect-ratio: auto; }
 
-.scrollcue {
-  position: absolute;
-  left: 50%;
-  bottom: 1.4rem;
-  z-index: 4;
-  transform: translateX(-50%);
-  font-size: 0.6rem;
-  letter-spacing: 0.28em;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.7);
-  display: grid;
-  justify-items: center;
-  gap: 0.5rem;
-}
+  .hero__head {
+    align-self: end;
+    padding: 2rem clamp(2rem, 4vw, 4rem) 0 var(--pad);
+  }
 
-.scrollcue::after {
-  content: "";
-  width: 1px;
-  height: 34px;
-  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.8), transparent);
-  animation: cue 2.4s var(--ease) infinite;
-}
+  .hero__meta { padding: 1.6rem clamp(2rem, 4vw, 4rem) 0 var(--pad); }
 
-@keyframes cue {
-  0% { transform: scaleY(0); transform-origin: top; }
-  45% { transform: scaleY(1); transform-origin: top; }
-  55% { transform: scaleY(1); transform-origin: bottom; }
-  100% { transform: scaleY(0); transform-origin: bottom; }
+  .hero__controls {
+    padding: clamp(1.75rem, 5vh, 3.25rem) clamp(2rem, 4vw, 4rem) clamp(1.25rem, 3.5vh, 2.25rem) var(--pad);
+  }
+
+  .hero__caption { display: block; }
+  .hero__nav { justify-content: flex-start; }
 }
 
 /* page hero for inner pages */
@@ -1481,7 +1509,7 @@ body.room .footer { border-top: 1px solid var(--room-line); }
   padding-bottom: 3.5rem;
 }
 
-.footer h4 {
+.footer__h {
   font-family: var(--font-sans);
   font-size: 0.66rem;
   font-weight: 500;
@@ -1552,6 +1580,32 @@ body.room .footer { border-top: 1px solid var(--room-line); }
 .reveal-d3 { transition-delay: 0.24s; }
 
 /* ==========================================================================
+   motion between states: a photo grows out of the page into the viewer and
+   shrinks back, and pages fade into each other. Browsers without view
+   transitions simply skip it.
+   ========================================================================== */
+@view-transition { navigation: auto; }
+
+::view-transition-old(root),
+::view-transition-new(root) { animation-duration: 0.4s; }
+
+::view-transition-group(lb-photo) {
+  animation-duration: 0.5s;
+  animation-timing-function: cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+::view-transition-old(lb-photo),
+::view-transition-new(lb-photo) {
+  height: 100%;
+  object-fit: cover;
+  animation-duration: 0.5s;
+}
+
+/* while a photo morphs, the viewer appears at once rather than fading */
+.is-morphing .lb,
+.is-morphing .lb__frame img { transition: none; }
+
+/* ==========================================================================
    paper texture: a faint grain on backgrounds only, so photographs stay clean
    ========================================================================== */
 body,
@@ -1590,7 +1644,6 @@ body,
   .m-wide { grid-column: span 12; }
 
   .strip { grid-template-columns: repeat(2, 1fr); }
-  .hero__dots { display: none; }
 }
 
 @media (max-width: 640px) {
@@ -1627,7 +1680,6 @@ body,
   .field--half { grid-template-columns: 1fr; }
   .footer__top { grid-template-columns: 1fr; }
   .hero__actions .btn { flex: 1 1 100%; justify-content: center; }
-  .scrollcue { display: none; }   /* it collided with the buttons; the pause control takes the corner */
   .split__badge { position: static; display: inline-block; margin-top: 1rem; }
 }
 
@@ -1642,6 +1694,15 @@ body,
   }
 
   .reveal, .tile, .rise { opacity: 1; transform: none; }
+  .hero__slide img { animation: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  @view-transition { navigation: none; }
+
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) { animation: none; }
 }
 
 @media print {
