@@ -48,12 +48,21 @@
 
   function $(sel, root) { return (root || document).querySelector(sel); }
   function $$(sel, root) { return Array.prototype.slice.call((root || document).querySelectorAll(sel)); }
+  function esc(text) {
+    return String(text).replace(/[&<>"']/g, function (c) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+    });
+  }
   function thumb(p) { return "assets/img/thumb/" + p.id + ".webp"; }
   function full(p) { return "assets/img/full/" + p.id + ".webp"; }
 
   // let the browser pick the rendition that suits the slot and the screen
   function widthAt(p, edge) { return p.w >= p.h ? edge : Math.round(edge * p.w / p.h); }
-  function smallSet(p) { return thumb(p) + " " + widthAt(p, 900) + "w, " + full(p) + " " + widthAt(p, 1600) + "w"; }
+  function small(p) { return "assets/img/small/" + p.id + ".webp"; }
+  function smallSet(p) {
+    return small(p) + " " + widthAt(p, 600) + "w, " + thumb(p) + " " + widthAt(p, 900) + "w, " +
+      full(p) + " " + widthAt(p, 1600) + "w";
+  }
   function largeSet(p) { return smallSet(p); }   // 1600px is the largest copy published
 
   /* ---------------------------------------------------------------- header */
@@ -86,11 +95,16 @@
       document.body.classList.toggle("is-locked", open);
       burger.setAttribute("aria-expanded", open ? "true" : "false");
     });
-    $$(".menu a").forEach(function (a) {
-      a.addEventListener("click", function () {
-        document.body.classList.remove("is-menu-open", "is-locked");
-        burger.setAttribute("aria-expanded", "false");
-      });
+    var closeMenu = function () {
+      document.body.classList.remove("is-menu-open", "is-locked");
+      burger.setAttribute("aria-expanded", "false");
+    };
+    $$(".menu a").forEach(function (a) { a.addEventListener("click", closeMenu); });
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && document.body.classList.contains("is-menu-open")) {
+        closeMenu();
+        burger.focus();
+      }
     });
   }
 
@@ -395,7 +409,7 @@
       fig.innerHTML =
         '<img src="' + thumb(p) + '" srcset="' + smallSet(p) + '"' +
         ' sizes="(max-width: 560px) 92vw, (max-width: 1024px) 46vw, 31vw"' +
-        ' alt="' + p.alt + '" width="' + p.w + '" height="' + p.h + '" loading="lazy" decoding="async">' +
+        ' alt="' + esc(p.alt) + '" width="' + p.w + '" height="' + p.h + '" loading="lazy" decoding="async">' +
         '<span class="tile__zoom" aria-hidden="true">' +
         '<svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.2">' +
         '<circle cx="6" cy="6" r="4.4"/><path d="M9.4 9.4 13 13M6 4v4M4 6h4"/></svg></span>';
@@ -685,9 +699,38 @@
     });
   }
 
+  /* ------------------------------------------ phones: "Check your date" bar */
+  function dockBar() {
+    var dock = $("[data-dock]");
+    if (!dock) return;
+    document.body.classList.add("has-dock");
+    var queued = false;
+    var check = function () {
+      queued = false;
+      dock.classList.toggle("is-on", window.scrollY > window.innerHeight * 0.85);
+    };
+    window.addEventListener("scroll", function () {
+      if (!queued) { queued = true; requestAnimationFrame(check); }
+    }, { passive: true });
+    check();
+  }
+
+  /* ------------------------------------------- About page: counts stay true */
+  function counts() {
+    var galleries = {};
+    photos.forEach(function (p) { galleries[p.cat] = true; });
+    var values = { photos: photos.length, galleries: Object.keys(galleries).length };
+    $$("[data-count]").forEach(function (el) {
+      var v = values[el.getAttribute("data-count")];
+      if (v) el.textContent = v;
+    });
+  }
+
   /* ------------------------------------------------------------------ init */
   $$("[data-year]").forEach(function (el) { el.textContent = new Date().getFullYear(); });
   fillSlots();
+  counts();
+  dockBar();
   riseIn();
   inkStatement();
   buildGrid();

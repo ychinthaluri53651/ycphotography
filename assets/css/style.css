@@ -420,6 +420,17 @@ section { position: relative; }
 .burger span:nth-child(1) { top: 18px; }
 .burger span:nth-child(2) { top: 25px; }
 
+/* the open menu keeps the brand and the close button visible above it */
+body.is-menu-open .header {
+  z-index: 100;
+  color: var(--on-dark);
+  background: transparent;
+  box-shadow: none;
+  backdrop-filter: none;
+}
+
+body.is-menu-open .header::after { opacity: 0; }
+
 body.is-menu-open .burger span:nth-child(1) { transform: translateY(3.5px) rotate(45deg); }
 body.is-menu-open .burger span:nth-child(2) { transform: translateY(-3.5px) rotate(-45deg); }
 
@@ -718,7 +729,7 @@ body.is-menu-open .menu a {
 
 /* the words fill in with ink as the statement scrolls up the screen */
 .statement.is-inking .w {
-  color: var(--ink-ghost);
+  color: rgba(23, 21, 15, 0.5);   /* unread words stay readable: 3.3:1 for large text */
   transition: color 0.4s var(--ease);
 }
 
@@ -1604,6 +1615,53 @@ body.room .footer { border-top: 1px solid var(--room-line); }
 /* while a photo morphs, the viewer appears at once rather than fading */
 .is-morphing .lb,
 .is-morphing .lb__frame img { transition: none; }
+
+/* ==========================================================================
+   phones: a slim "Check your date" bar once the first screen has gone by
+   ========================================================================== */
+.dock { display: none; }
+
+@media (max-width: 860px) {
+  .dock {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 80;
+    display: block;
+    padding: 0.6rem var(--pad) calc(0.6rem + env(safe-area-inset-bottom, 0px));
+    background: rgba(249, 245, 238, 0.94);
+    backdrop-filter: saturate(140%) blur(12px);
+    box-shadow: 0 -1px 0 var(--line);
+    transform: translateY(105%);
+    visibility: hidden;
+    transition: transform 0.45s var(--ease), visibility 0.45s;
+  }
+
+  .dock.is-on {
+    transform: none;
+    visibility: visible;
+  }
+
+  body.is-locked .dock,
+  body.is-menu-open .dock {
+    transform: translateY(105%);
+    visibility: hidden;
+  }
+
+  .dock .btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  body.room .dock {
+    background: rgba(18, 17, 16, 0.92);
+    box-shadow: 0 -1px 0 var(--room-line);
+  }
+
+  /* room at the bottom so the bar never covers the end of the footer */
+  .has-dock .footer { padding-bottom: calc(4.75rem + env(safe-area-inset-bottom, 0px)); }
+}
 
 /* ==========================================================================
    paper texture: a faint grain on backgrounds only, so photographs stay clean
