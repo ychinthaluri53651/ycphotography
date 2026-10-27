@@ -17,7 +17,7 @@ Usage:
 Categories: weddings, half-saree, baby-shower, photoshoots, birthdays
 
 For each photo this writes the three WebP renditions the site uses
-(thumb 900px and full 1600px on the long edge, both watermarked) and appends an entry
+(small 600px, thumb 900px and full 1600px on the long edge, all watermarked) and appends an entry
 to assets/js/photos.js. The portfolio arranges them on its own — no layout
 work, no HTML to edit. Photos already on the site are recognised and skipped,
 so re-running is safe.
@@ -60,7 +60,8 @@ SKIP_DIR_SUFFIXES = (".lrdata", ".lrcat-data", ".lrcat", ".photoslibrary")
 
 # Every published copy carries the gold Y and stops at 1600px on the long edge:
 # good on any screen, not worth stealing to print or resell.
-SIZES = {"thumb": 900, "full": 1600}
+# "small" keeps phones from downloading more than they can show.
+SIZES = {"small": 600, "thumb": 900, "full": 1600}
 WATERMARK = ROOT / "tools" / "watermark-y.png"
 ARTIST = "Yogananda - YC Photography"
 COPYRIGHT = "(c) YC Photography. All rights reserved."

@@ -62,8 +62,9 @@ about decisions that are genuinely theirs (section 8).
   - `k`: fingerprint used for de-duplication
   - `auto: 1`: the alt text is generic and no caption is shown
   - `near`: sort this photo next to another photo's set
-- **Renditions:** `assets/img/thumb/<id>.webp` (900 px long edge) and
-  `assets/img/full/<id>.webp` (1600 px). Both are WebP at q82, carry the gold
+- **Renditions:** `assets/img/small/<id>.webp` (600 px long edge, for phones),
+  `assets/img/thumb/<id>.webp` (900 px) and `assets/img/full/<id>.webp`
+  (1600 px). All are WebP at q82, carry the gold
   "Y" watermark, and have copyright embedded in EXIF/XMP. There are 137 photos.
 - **The originals are not kept.** A 1600 px watermarked file is the largest copy
   of any photo, so never upscale. A new, smaller rendition size must be made by
