@@ -384,6 +384,67 @@
     }
   }
 
+  /* ------------------------------------------------------- statement ink */
+  // The home page statement fills in with ink, word by word, as it scrolls up
+  // the screen. Screen readers get the sentence whole; the split-up copy that
+  // does the animating is hidden from them. With reduced motion it just shows.
+  function inkStatement() {
+    var block = $("[data-ink]");
+    if (!block || reduced) return;
+
+    var units = [];
+    $$("p", block).forEach(function (p) {
+      var plain = document.createElement("span");
+      plain.className = "sr-only";
+      plain.textContent = p.textContent.replace(/\s+/g, " ").trim();
+
+      var visual = document.createElement("span");
+      visual.setAttribute("aria-hidden", "true");
+      Array.prototype.slice.call(p.childNodes).forEach(function (node) {
+        if (node.nodeType !== 3) {            // a photograph counts as a word
+          if (!node.classList.contains("peek")) node.classList.add("w");
+          visual.appendChild(node);
+          units.push(node);
+          return;
+        }
+        node.textContent.split(/(\s+)/).forEach(function (part) {
+          if (!part) return;
+          if (/^\s+$/.test(part)) { visual.appendChild(document.createTextNode(part)); return; }
+          var w = document.createElement("span");
+          w.className = "w";
+          w.textContent = part;
+          visual.appendChild(w);
+          units.push(w);
+        });
+      });
+      p.textContent = "";
+      p.appendChild(plain);
+      p.appendChild(visual);
+    });
+    block.classList.add("is-inking");
+
+    var lit = -1;
+    var queued = false;
+    var update = function () {
+      queued = false;
+      var r = block.getBoundingClientRect();
+      var vh = window.innerHeight;
+      // starts as the top passes 85% of the way down the screen, and is
+      // finished by the time the bottom passes 45%
+      var progress = (vh * 0.85 - r.top) / (vh * 0.4 + r.height);
+      var n = Math.round(Math.min(1, Math.max(0, progress)) * units.length);
+      if (n === lit) return;
+      units.forEach(function (u, i) { u.classList.toggle("is-lit", i < n); });
+      lit = n;
+    };
+    var queue = function () {
+      if (!queued) { queued = true; requestAnimationFrame(update); }
+    };
+    window.addEventListener("scroll", queue, { passive: true });
+    window.addEventListener("resize", queue);
+    update();
+  }
+
   /* ------------------------------------------------------------ contact form */
   function contactForm() {
     var form = $("[data-contact-form]");
@@ -446,6 +507,7 @@
   /* ------------------------------------------------------------------ init */
   $$("[data-year]").forEach(function (el) { el.textContent = new Date().getFullYear(); });
   fillSlots();
+  inkStatement();
   buildGrid();
   buildFilters();
   contactForm();
