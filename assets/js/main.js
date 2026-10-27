@@ -68,7 +68,7 @@
   /* ---------------------------------------------------------------- header */
   var header = $(".header");
   if (header && !header.classList.contains("header--static")) {
-    var darkZones = $$(".room, .section--dark, .footer");
+    var darkZones = $$(".room, .section--dark");
     var headQueued = false;
     var onScroll = function () {
       headQueued = false;
@@ -527,7 +527,7 @@
       img.sizes = el.dataset.sizes || (big ? "50vw" : "25vw");
       img.srcset = big ? largeSet(p) : smallSet(p);
       img.src = big ? full(p) : thumb(p);
-      if (!img.alt) img.alt = p.alt;
+      if (!img.alt && !el.hasAttribute("data-decorative")) img.alt = p.alt;
       img.width = p.w;
       img.height = p.h;
       if (el.tagName !== "IMG") el.style.background = p.c;
@@ -715,9 +715,40 @@
     check();
   }
 
+  /* ------------------------------------- home: the index's floating photo */
+  // On a computer, the photo for each gallery follows the pointer down the
+  // index. On touch screens the photos sit in the rows instead.
+  function indexPreview() {
+    var box = $("[data-index]");
+    var float = box && $(".g-index__float", box);
+    if (!float || !window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
+    var fimg = $("img", float);
+    var rows = $$(".g-index__row", box);
+    var srcFor = function (row) {
+      var slot = $("[data-photo]", row);
+      return slot ? "assets/img/thumb/" + slot.getAttribute("data-photo") + ".webp" : "";
+    };
+    rows.forEach(function (row) {
+      var warm = new Image();              // fetched now, so the first hover is instant
+      warm.src = srcFor(row);
+      row.addEventListener("mouseenter", function () {
+        var inner = $("img", row);
+        fimg.src = srcFor(row);
+        fimg.style.objectPosition = inner ? inner.style.objectPosition : "";
+        float.classList.add("is-on");
+      });
+      row.addEventListener("mouseleave", function () { float.classList.remove("is-on"); });
+    });
+    box.addEventListener("mousemove", function (e) {
+      float.style.setProperty("--x", e.clientX + "px");
+      float.style.setProperty("--y", e.clientY + "px");
+    });
+  }
+
   /* ------------------------------------------------------------------ init */
   $$("[data-year]").forEach(function (el) { el.textContent = new Date().getFullYear(); });
   fillSlots();
+  indexPreview();
   dockBar();
   riseIn();
   inkStatement();

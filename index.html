@@ -25,7 +25,7 @@
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
 
 <link rel="preload" as="image" href="assets/img/full/yc-111.webp" imagesrcset="assets/img/small/yc-111.webp 400w, assets/img/thumb/yc-111.webp 600w, assets/img/full/yc-111.webp 1067w" imagesizes="(min-width: 1100px) 64vw, 100vw" fetchpriority="high">
-<link rel="stylesheet" href="assets/css/style.css?v=4a7735b3">
+<link rel="stylesheet" href="assets/css/style.css?v=e365f763">
 
 <script type="application/ld+json">
 {
@@ -54,7 +54,7 @@
     </a>
     <nav class="nav" aria-label="Primary">
       <a href="index.html" aria-current="page">Home</a>
-      <a href="portfolio.html">Portfolio</a>
+      <a href="portfolio.html">Work</a>
       <a href="about.html">About</a>
       <a class="nav__cta" href="contact.html">Check your date</a>
     </nav>
@@ -66,7 +66,7 @@
 
 <div class="menu" id="menu">
   <a href="index.html">Home</a>
-  <a href="portfolio.html">Portfolio</a>
+  <a href="portfolio.html">Work</a>
   <a href="about.html">About</a>
   <a href="contact.html">Check your date</a>
   <p class="menu__foot">Michigan · available to travel</p>
@@ -75,14 +75,9 @@
 <main>
 
 <!-- =============================== hero =============================== -->
-<!-- Words on paper, the photographs whole beside them: no text ever sits on a
-     face. On phones: headline, photo, controls, then the text and buttons. -->
-<section class="hero" data-hero>
-  <div class="hero__head">
-    <p class="eyebrow">Michigan · available to travel</p>
-    <h1 class="hero__title">The <span class="nowrap">in-between</span><br>moments, <em>kept.</em></h1>
-  </div>
-
+<!-- Gallery white: one large photograph on a white wall, nothing written on
+     it. The caption and controls sit underneath. -->
+<section class="hero hero--gallery" data-hero>
   <div class="hero__slides">
     <div class="hero__slide is-active" data-caption="Groom kissing the bride by the lake under autumn trees">
       <img src="assets/img/full/yc-111.webp" srcset="assets/img/small/yc-111.webp 400w, assets/img/thumb/yc-111.webp 600w, assets/img/full/yc-111.webp 1067w" sizes="(min-width: 1100px) 64vw, 100vw" alt="Groom kissing the bride by the lake under autumn trees" width="1067" height="1600" style="object-position:50% 38%" fetchpriority="high">
@@ -101,16 +96,8 @@
     </div>
   </div>
 
-  <div class="hero__meta">
-    <p class="hero__sub">Weddings, half sarees, baby showers, birthdays and photoshoots — photographed the way they actually happened, so ten years from now the day still feels like the day.</p>
-    <div class="hero__actions">
-      <a class="btn" href="portfolio.html">View the portfolio</a>
-      <a class="btn btn--ghost" href="contact.html">Check your date</a>
-    </div>
-  </div>
-
-  <div class="hero__controls">
-    <p class="hero__caption" aria-hidden="true" data-hero-caption>Groom kissing the bride by the lake under autumn trees</p>
+  <div class="hero__bar">
+    <p class="hero__caption" aria-hidden="true"><span data-hero-caption>Groom kissing the bride by the lake under autumn trees</span></p>
     <div class="hero__nav">
       <span class="hero__count" aria-hidden="true"><span data-hero-index>01</span> / 05</span>
       <div class="hero__dots" role="group" aria-label="Choose a photograph">
@@ -130,6 +117,72 @@
   </div>
 </section>
 
+<!-- =============================== intro ============================== -->
+<section class="g-intro">
+  <div class="wrap">
+    <p class="eyebrow">Michigan · available to travel</p>
+    <h1 class="g-intro__title">The <span class="nowrap">in-between</span><br>moments, <em>kept.</em></h1>
+    <div class="g-intro__foot">
+      <p class="g-intro__sub">Weddings, half sarees, baby showers, birthdays and photoshoots — photographed the way they actually happened, so ten years from now the day still feels like the day.</p>
+      <p class="g-links">
+        <a class="tlink" href="portfolio.html">View the work
+          <svg width="16" height="10" viewBox="0 0 16 10" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><path d="M0 5h14M10 1l4 4-4 4"/></svg>
+        </a>
+        <a class="tlink" href="contact.html">Check your date
+          <svg width="16" height="10" viewBox="0 0 16 10" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><path d="M0 5h14M10 1l4 4-4 4"/></svg>
+        </a>
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- =============================== index ============================== -->
+<!-- The galleries as an index, like a photographer's book. On a computer a
+     photo from the gallery follows the pointer; on a phone it sits in the row. -->
+<section class="g-index" aria-labelledby="index-title" data-index>
+  <div class="wrap">
+    <h2 class="eyebrow" id="index-title">The work</h2>
+    <ul class="g-index__list">
+      <li>
+        <a class="g-index__row" href="portfolio.html?c=weddings">
+          <span class="g-index__name">Weddings</span>
+          <span class="g-index__thumb" data-photo="yc-122" data-sizes="96px" data-decorative><img alt="" loading="lazy" decoding="async"></span>
+          <svg class="g-index__arrow" width="22" height="12" viewBox="0 0 22 12" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><path d="M0 6h20M15 1l5 5-5 5"/></svg>
+        </a>
+      </li>
+      <li>
+        <a class="g-index__row" href="portfolio.html?c=birthdays">
+          <span class="g-index__name">Birthdays</span>
+          <span class="g-index__thumb" data-photo="yc-141" data-sizes="96px" data-decorative><img alt="" loading="lazy" decoding="async" style="object-position:50% 30%"></span>
+          <svg class="g-index__arrow" width="22" height="12" viewBox="0 0 22 12" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><path d="M0 6h20M15 1l5 5-5 5"/></svg>
+        </a>
+      </li>
+      <li>
+        <a class="g-index__row" href="portfolio.html?c=half-saree">
+          <span class="g-index__name">Half saree</span>
+          <span class="g-index__thumb" data-photo="yc-054" data-sizes="96px" data-decorative><img alt="" loading="lazy" decoding="async"></span>
+          <svg class="g-index__arrow" width="22" height="12" viewBox="0 0 22 12" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><path d="M0 6h20M15 1l5 5-5 5"/></svg>
+        </a>
+      </li>
+      <li>
+        <a class="g-index__row" href="portfolio.html?c=baby-shower">
+          <span class="g-index__name">Baby shower</span>
+          <span class="g-index__thumb" data-photo="yc-098" data-sizes="96px" data-decorative><img alt="" loading="lazy" decoding="async"></span>
+          <svg class="g-index__arrow" width="22" height="12" viewBox="0 0 22 12" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><path d="M0 6h20M15 1l5 5-5 5"/></svg>
+        </a>
+      </li>
+      <li>
+        <a class="g-index__row" href="portfolio.html?c=photoshoots">
+          <span class="g-index__name">Photoshoots</span>
+          <span class="g-index__thumb" data-photo="yc-013" data-sizes="96px" data-decorative><img alt="" loading="lazy" decoding="async" style="object-position:55% 50%"></span>
+          <svg class="g-index__arrow" width="22" height="12" viewBox="0 0 22 12" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><path d="M0 6h20M15 1l5 5-5 5"/></svg>
+        </a>
+      </li>
+    </ul>
+  </div>
+  <div class="g-index__float" aria-hidden="true"><img alt=""></div>
+</section>
+
 <!-- ============================= statement ============================ -->
 <section class="section section--statement">
   <div class="wrap">
@@ -146,7 +199,7 @@
 </section>
 
 <!-- ============================= featured ============================= -->
-<section class="section section--tight room" aria-labelledby="work-title">
+<section class="section section--tight g-work" aria-labelledby="work-title">
   <div class="wrap">
     <div class="sechead reveal">
       <div>
@@ -205,42 +258,6 @@
   </div>
 </section>
 
-<!-- ============================ categories ============================ -->
-<section class="section">
-  <div class="wrap">
-    <div class="sechead reveal">
-      <div>
-        <p class="eyebrow">What I shoot</p>
-        <h2 class="h2">Pick a thread<br>and follow it</h2>
-      </div>
-      <p class="lede" style="max-width:38ch">Every gallery below is real work from real days — no stock, no borrowed frames.</p>
-    </div>
-
-    <div class="cats reveal reveal-d1">
-      <a class="cat" href="portfolio.html?c=weddings" data-photo="yc-122" data-sizes="(max-width: 640px) 92vw, (max-width: 1100px) 31vw, 19vw">
-        <img alt="" loading="lazy" decoding="async">
-        <span class="cat__label"><h3>Weddings</h3></span>
-      </a>
-      <a class="cat" href="portfolio.html?c=birthdays" data-photo="yc-141" data-sizes="(max-width: 640px) 92vw, (max-width: 1100px) 31vw, 19vw">
-        <img alt="" loading="lazy" decoding="async" style="object-position:50% 30%">
-        <span class="cat__label"><h3>Birthdays</h3></span>
-      </a>
-      <a class="cat" href="portfolio.html?c=half-saree" data-photo="yc-054" data-sizes="(max-width: 640px) 92vw, (max-width: 1100px) 31vw, 19vw">
-        <img alt="" loading="lazy" decoding="async">
-        <span class="cat__label"><h3>Half saree</h3></span>
-      </a>
-      <a class="cat" href="portfolio.html?c=baby-shower" data-photo="yc-098" data-sizes="(max-width: 640px) 92vw, (max-width: 1100px) 31vw, 19vw">
-        <img alt="" loading="lazy" decoding="async">
-        <span class="cat__label"><h3>Baby shower</h3></span>
-      </a>
-      <a class="cat" href="portfolio.html?c=photoshoots" data-photo="yc-013" data-sizes="(max-width: 640px) 92vw, (max-width: 1100px) 31vw, 19vw">
-        <img alt="" loading="lazy" decoding="async" style="object-position:55% 50%">
-        <span class="cat__label"><h3>Photoshoots</h3></span>
-      </a>
-    </div>
-  </div>
-</section>
-
 <!-- ============================== about =============================== -->
 <section class="section section--paper2">
   <div class="wrap">
@@ -264,50 +281,15 @@
   </div>
 </section>
 
-<!-- ============================== process ============================= -->
-<section class="section section--dark">
-  <div class="wrap">
-    <div class="sechead reveal">
-      <div>
-        <p class="eyebrow">The process</p>
-        <h2 class="h2">Simple, start to finish</h2>
-      </div>
-    </div>
-    <div class="steps">
-      <div class="step reveal">
-        <span class="step__num">01</span>
-        <h3>Say hello</h3>
-        <p>Tell me the date, the place and what the day looks like in your head. I'll come back with availability and what a session together would cover.</p>
-      </div>
-      <div class="step reveal reveal-d1">
-        <span class="step__num">02</span>
-        <h3>Plan the day</h3>
-        <p>We walk through timings, locations and the people who matter, so nothing important gets missed while everything is happening at once.</p>
-      </div>
-      <div class="step reveal reveal-d2">
-        <span class="step__num">03</span>
-        <h3>Shoot it</h3>
-        <p>I stay out of the way and work the room. You get to actually be at your own event instead of posing through it.</p>
-      </div>
-      <div class="step reveal reveal-d3">
-        <span class="step__num">04</span>
-        <h3>Your gallery</h3>
-        <p>Every frame hand-edited, delivered in a private online gallery you can download, share and print from — yours to keep.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
 <!-- ================================ cta =============================== -->
-<section class="cta">
-  <img src="assets/img/full/yc-109.webp" srcset="assets/img/small/yc-109.webp 600w, assets/img/thumb/yc-109.webp 900w, assets/img/full/yc-109.webp 1600w" sizes="100vw" alt="" width="1600" height="1067" loading="lazy" decoding="async">
+<section class="g-cta">
   <div class="wrap">
-    <div class="cta__inner reveal">
-      <p class="eyebrow eyebrow--light">Can't wait to meet you</p>
-      <h2 class="h2">Ready to take some epic photos?</h2>
-      <p style="max-width:52ch;color:rgba(255,255,255,.8)">Dates book up fast in wedding season — send yours over and I'll get straight back to you.</p>
-      <a class="btn btn--solid-light" href="contact.html">Check your date</a>
-    </div>
+    <p class="eyebrow">Can't wait to meet you</p>
+    <h2 class="g-cta__title">Ready to take some <em>epic</em> photos?</h2>
+    <p class="g-cta__sub">Dates book up fast in wedding season — send yours over and I'll get straight back to you.</p>
+    <a class="btn" href="contact.html">Check your date
+      <svg width="16" height="10" viewBox="0 0 16 10" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><path d="M0 5h14M10 1l4 4-4 4"/></svg>
+    </a>
   </div>
 </section>
 
@@ -337,7 +319,7 @@
         <h2 class="footer__h">Explore</h2>
         <ul>
           <li><a href="index.html">Home</a></li>
-          <li><a href="portfolio.html">Portfolio</a></li>
+          <li><a href="portfolio.html">Work</a></li>
           <li><a href="about.html">About</a></li>
           <li><a href="contact.html">Contact</a></li>
         </ul>
@@ -381,6 +363,6 @@
 </div>
 
 <script src="assets/js/photos.js?v=eb739e4c"></script>
-<script src="assets/js/main.js?v=a819a025"></script>
+<script src="assets/js/main.js?v=5e2c2f01"></script>
 </body>
 </html>
