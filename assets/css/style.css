@@ -2139,7 +2139,7 @@ body,
 .header.header--static,
 .header.is-solid.is-over-dark,
 body.room .header.header--static {
-  background: url("../img/kalamkari/trim.svg") left bottom / auto 8px repeat-x, rgba(243, 232, 210, 0.97);
+  background: url("../img/kalamkari/trim.svg?v=2") left bottom / auto 11px repeat-x, rgba(243, 232, 210, 0.97);
   color: var(--ink);
   box-shadow: none;
 }
@@ -2195,7 +2195,7 @@ body.room .pagehead .eyebrow { color: var(--mustard); }
   width: 290px;
   max-width: 100%;
   height: 70px;
-  background: url("../img/kalamkari/lotus.svg") center / contain no-repeat;
+  background: url("../img/kalamkari/lotus.svg?v=2") center / contain no-repeat;
 }
 
 .c-orn::after { content: none; }
@@ -2205,11 +2205,11 @@ body.room .pagehead .eyebrow { color: var(--mustard); }
 
 /* ---------- the indigo wall, edged top and bottom with a printed border ---------- */
 section.room {
-  border-block: 62px solid transparent;
-  background-image: url("../img/kalamkari/band-dark.svg"), url("../img/kalamkari/band-dark.svg"), var(--grain);
+  border-block: 72px solid transparent;
+  background-image: url("../img/kalamkari/band-dark.svg?v=2"), url("../img/kalamkari/band-dark.svg?v=2"), var(--grain);
   background-position: left 14px, left calc(100% - 14px), 0 0;
   background-repeat: repeat-x, repeat-x, repeat;
-  background-size: auto 34px, auto 34px, var(--grain-size);
+  background-size: auto 44px, auto 44px, var(--grain-size);
   background-origin: border-box;
 }
 
@@ -2232,11 +2232,11 @@ section.room {
 
 /* "How I work" opens with a printed border */
 .section--paper2 {
-  border-top: 62px solid transparent;
-  background-image: url("../img/kalamkari/band.svg");
+  border-top: 72px solid transparent;
+  background-image: url("../img/kalamkari/band.svg?v=2");
   background-position: left 14px;
   background-repeat: repeat-x;
-  background-size: auto 34px;
+  background-size: auto 44px;
   background-origin: border-box;
 }
 
@@ -2247,12 +2247,12 @@ section.room {
 /* ---------- footer: indigo under a printed border ---------- */
 .footer,
 body.room .footer {
-  border-top: 62px solid transparent;
+  border-top: 72px solid transparent;
   background-color: var(--indigo);
-  background-image: url("../img/kalamkari/band-dark.svg"), var(--grain);
+  background-image: url("../img/kalamkari/band-dark.svg?v=2"), var(--grain);
   background-position: left 14px, 0 0;
   background-repeat: repeat-x, repeat;
-  background-size: auto 34px, var(--grain-size);
+  background-size: auto 44px, var(--grain-size);
   background-origin: border-box;
   color: rgba(243, 232, 210, 0.85);
 }
