@@ -2036,48 +2036,53 @@ body,
 }
 
 /* ==========================================================================
-   SAGE, CREAM & BURGUNDY: warm cream pages, muted sage gallery walls for the
-   photographs, and deep burgundy for headings, buttons and the strong
-   sections. (Overrides the palette above.)
-   Contrast: ink on cream 11.3:1, on sage 6.8:1; burgundy on cream 9.8:1,
-   on sage 5.9:1; cream on burgundy 9.8:1. Cream is never used on sage.
+   KALAMKARI: the colours of naturally dyed Kalamkari cloth. Unbleached
+   cotton pages, madder-red headings and buttons, an indigo wall for the
+   photographs and the footer, mustard details, and hand-drawn borders
+   (paisley, rosette, lotus, temple teeth) like the edges of the cloth.
+   (Overrides the palettes above.)
+   Contrast: ink on cotton 13.4:1, muted 6.2:1; madder on cotton 6.6:1,
+   on cotton-2 5.9:1; cotton on madder 6.6:1; cotton on indigo 11.7:1;
+   mustard on indigo 5.4:1. Mustard is never used for text on madder.
    ========================================================================== */
 :root {
   color-scheme: light;
-  --cream: #e8d2b5;
-  --sage: #a5a79b;
-  --burgundy: #590907;
-  --burgundy-hover: #741210;
+  --cotton: #f3e8d2;
+  --cotton-2: #eadcc0;
+  --madder: #952a1d;
+  --madder-deep: #7a2114;
+  --indigo: #1f2a44;
+  --indigo-2: #283757;
+  --mustard: #c9982f;
 
-  --paper: var(--cream);
-  --paper-2: var(--sage);
-  --ink: #2b1a16;
-  --ink-soft: #3d2b25;
-  --muted: #5c4840;
-  --line: rgba(89, 9, 7, 0.2);
-  --ink-ghost: rgba(43, 26, 22, 0.3);
-  --accent: var(--burgundy);
-  --accent-deep: var(--burgundy-hover);
-  --gold-light: var(--burgundy-hover);
-  --on-light: #2b1a16;
-  --on-dark: var(--cream);
-  --dark: var(--burgundy);
-  --dark-2: #430605;
+  --paper: var(--cotton);
+  --paper-2: var(--cotton-2);
+  --ink: #2a1d16;
+  --ink-soft: #3d2c22;
+  --muted: #65503f;
+  --line: rgba(149, 42, 29, 0.22);
+  --ink-ghost: rgba(42, 29, 22, 0.3);
+  --accent: var(--madder);
+  --accent-deep: var(--madder-deep);
+  --gold-light: var(--madder-deep);
+  --on-light: #2a1d16;
+  --on-dark: var(--cotton);
+  --dark: var(--madder);
+  --dark-2: #6e1c12;
 
-  /* the "room" (stories, portfolio) becomes a sage gallery wall */
-  --room: var(--sage);
-  --room-2: #b2b4a9;
-  --room-ink: #1f1210;
-  --room-soft: #2f201b;
-  --room-muted: #3e2d27;
-  --room-line: rgba(31, 18, 16, 0.2);
-  --room-accent: var(--burgundy);
+  /* the "room" (stories, portfolio) is an indigo-dyed wall */
+  --room: var(--indigo);
+  --room-2: var(--indigo-2);
+  --room-ink: var(--cotton);
+  --room-soft: rgba(243, 232, 210, 0.86);
+  --room-muted: rgba(243, 232, 210, 0.74);
+  --room-line: rgba(243, 232, 210, 0.2);
+  --room-accent: var(--mustard);
 }
 
-/* on sage, quiet text stays dark enough to read */
-.section--paper2 { --muted: #3e2d27; --ink-soft: #2f201b; }
+.section--paper2 { --muted: #5b4738; --ink-soft: #3a291f; }
 
-/* ---------- buttons: burgundy pills with cream type ---------- */
+/* ---------- buttons: madder pills with cotton type ---------- */
 .btn,
 .nav__cta { border-radius: 999px; }
 
@@ -2085,157 +2090,225 @@ body,
 
 .btn:hover,
 .btn--ghost:hover {
-  background: var(--burgundy-hover);
-  border-color: var(--burgundy-hover);
-  color: var(--cream);
+  background: var(--madder-deep);
+  border-color: var(--madder-deep);
+  color: var(--cotton);
 }
 
 .btn--gold,
 .btn--solid-light {
-  background: var(--burgundy);
-  border-color: var(--burgundy);
-  color: var(--cream);
+  background: var(--madder);
+  border-color: var(--madder);
+  color: var(--cotton);
 }
 
 .btn--gold:hover,
 .btn--solid-light:hover {
-  background: var(--burgundy-hover);
-  border-color: var(--burgundy-hover);
-  color: var(--cream);
+  background: var(--madder-deep);
+  border-color: var(--madder-deep);
+  color: var(--cotton);
 }
 
 .btn--ghost {
-  color: var(--burgundy);
-  border-color: var(--burgundy);
+  color: var(--madder);
+  border-color: var(--madder);
 }
 
 .nav__cta:hover {
-  background: var(--burgundy);
-  border-color: var(--burgundy);
-  color: var(--cream);
+  background: var(--madder);
+  border-color: var(--madder);
+  color: var(--cotton);
 }
 
-/* small capitals with a short rule beneath, as in the reference */
+/* small capitals over a dot-and-lozenge stitch */
 .eyebrow::after {
   content: "";
   display: block;
-  width: 28px;
-  height: 1px;
-  margin-top: 0.75rem;
+  width: 30px;
+  height: 8px;
+  margin-top: 0.7rem;
   background: currentColor;
+  -webkit-mask: url("../img/kalamkari/bud.svg") center / contain no-repeat;
+  mask: url("../img/kalamkari/bud.svg") center / contain no-repeat;
 }
 
 .c-intro .eyebrow::after { margin-inline: auto; }
-.eyebrow--light::after { background: currentColor; }
 
-/* ---------- the menu bar: cream once you scroll, everywhere ---------- */
+/* ---------- the menu bar: cotton with a temple-tooth edge once you scroll ---------- */
 .header.is-solid,
 .header.header--static,
 .header.is-solid.is-over-dark,
 body.room .header.header--static {
-  background: rgba(232, 210, 181, 0.95);
+  background: url("../img/kalamkari/trim.svg") left bottom / auto 8px repeat-x, rgba(243, 232, 210, 0.97);
   color: var(--ink);
-  box-shadow: 0 1px 0 var(--line);
+  box-shadow: none;
+}
+
+/* on the indigo pages the bar keeps its dark type */
+body.room .header {
+  --ink: #2a1d16;
+  --ink-soft: #3d2c22;
+  --muted: #65503f;
+  --line: rgba(149, 42, 29, 0.22);
+  --accent: var(--madder);
 }
 
 .header.is-over-dark .nav a[aria-current="page"],
-.nav a[aria-current="page"] { color: var(--burgundy); }
+.nav a[aria-current="page"] { color: var(--madder); }
 
 .header:not(.is-solid):not(.header--static) .nav a[aria-current="page"] { color: #fff; }
 
-.filters,
-body.room .filters { background: rgba(232, 210, 181, 0.95); }
+/* the portfolio's filter bar stays on the indigo wall */
+body.room .filters { background: rgba(31, 42, 68, 0.96); }
 
 body.room .filter[aria-pressed="true"] {
-  background: var(--burgundy);
-  border-color: var(--burgundy);
-  color: var(--cream);
+  background: var(--mustard);
+  border-color: var(--mustard);
+  color: var(--indigo);
 }
 
-body.room .pagehead .eyebrow { color: var(--burgundy); }
+body.room .pagehead .eyebrow { color: var(--mustard); }
 
 @media (max-width: 860px) {
   .dock,
   body.room .dock {
-    background: rgba(232, 210, 181, 0.95);
+    background: rgba(243, 232, 210, 0.97);
     box-shadow: 0 -1px 0 var(--line);
   }
 
   .dock .btn {
-    background: var(--burgundy);
-    border-color: var(--burgundy);
-    color: var(--cream);
+    background: var(--madder);
+    border-color: var(--madder);
+    color: var(--cotton);
   }
 }
 
-/* the phone menu: burgundy, cream type */
-.menu { background: var(--burgundy); color: var(--cream); }
+/* the phone menu: indigo, cotton type */
+.menu { background-color: var(--indigo); color: var(--cotton); }
 .menu a:hover { color: #fff; }
-.menu__foot { color: rgba(232, 210, 181, 0.8); }
+.menu__foot { color: rgba(243, 232, 210, 0.8); }
 
-/* ---------- intro and statement on cream ---------- */
-.statement.is-inking .w { color: rgba(43, 26, 22, 0.55); }   /* 3.3:1 for large text */
+/* ---------- intro: a lotus in place of the gold rule ---------- */
+.c-intro__title em { color: var(--indigo); }
+
+.c-orn {
+  width: 290px;
+  max-width: 100%;
+  height: 70px;
+  background: url("../img/kalamkari/lotus.svg") center / contain no-repeat;
+}
+
+.c-orn::after { content: none; }
+
+.statement.is-inking .w { color: rgba(42, 29, 22, 0.55); }   /* 3.5:1 for large text */
 .statement.is-inking .w.is-lit { color: var(--ink); }
 
-/* ---------- stories on the sage wall ---------- */
+/* ---------- the indigo wall, edged top and bottom with a printed border ---------- */
+section.room {
+  border-block: 62px solid transparent;
+  background-image: url("../img/kalamkari/band-dark.svg"), url("../img/kalamkari/band-dark.svg"), var(--grain);
+  background-position: left 14px, left calc(100% - 14px), 0 0;
+  background-repeat: repeat-x, repeat-x, repeat;
+  background-size: auto 34px, auto 34px, var(--grain-size);
+  background-origin: border-box;
+}
+
+.room .display,
+.room .h2,
+.room .story__title { color: var(--cotton); }
+
 .story__num,
-.g-work .story__num { color: var(--burgundy); }
-.story__num::after { background: var(--burgundy); }
+.g-work .story__num { color: var(--mustard); }
+.story__num::after { background: var(--mustard); }
 
-/* gallery cards: a cream line under the name on hover */
-.cat { background: var(--burgundy); }
-.cat__label h3 { background-image: linear-gradient(var(--cream), var(--cream)); }
+.room .btn--ghost {
+  color: var(--cotton);
+  border-color: rgba(243, 232, 210, 0.7);
+}
 
-/* ---------- burgundy sections ---------- */
+/* gallery cards: a cotton line under the name on hover */
+.cat { background: var(--madder); }
+.cat__label h3 { background-image: linear-gradient(var(--cotton), var(--cotton)); }
+
+/* "How I work" opens with a printed border */
+.section--paper2 {
+  border-top: 62px solid transparent;
+  background-image: url("../img/kalamkari/band.svg");
+  background-position: left 14px;
+  background-repeat: repeat-x;
+  background-size: auto 34px;
+  background-origin: border-box;
+}
+
+/* ---------- madder sections ---------- */
 .section--dark .eyebrow,
-.section--dark .step__num { color: rgba(232, 210, 181, 0.8); }
+.section--dark .step__num { color: rgba(243, 232, 210, 0.85); }
 
-.footer { color: rgba(232, 210, 181, 0.85); }
-.footer__brand { color: var(--cream); }
-.footer__h { color: rgba(232, 210, 181, 0.75); }
+/* ---------- footer: indigo under a printed border ---------- */
+.footer,
+body.room .footer {
+  border-top: 62px solid transparent;
+  background-color: var(--indigo);
+  background-image: url("../img/kalamkari/band-dark.svg"), var(--grain);
+  background-position: left 14px, 0 0;
+  background-repeat: repeat-x, repeat;
+  background-size: auto 34px, var(--grain-size);
+  background-origin: border-box;
+  color: rgba(243, 232, 210, 0.85);
+}
+
+.footer__brand { color: var(--cotton); }
+.footer__h { color: rgba(243, 232, 210, 0.75); }
 .footer a:hover { color: #fff; }
-.footer__bottom { border-top-color: rgba(232, 210, 181, 0.2); color: rgba(232, 210, 181, 0.8); }
-.social a { border-color: rgba(232, 210, 181, 0.35); }
+.footer__bottom { border-top-color: rgba(243, 232, 210, 0.2); color: rgba(243, 232, 210, 0.8); }
+.social a { border-color: rgba(243, 232, 210, 0.35); }
 
-/* the closing banner: the photograph under a burgundy veil */
+/* the closing banner: the photograph under an indigo veil */
 .cta::after {
-  background: linear-gradient(to right, rgba(89, 9, 7, 0.4), rgba(89, 9, 7, 0.88) 60%);
+  background: linear-gradient(to right, rgba(31, 42, 68, 0.35), rgba(31, 42, 68, 0.88) 60%);
 }
 
 @media (max-width: 860px) {
-  .cta::after { background: rgba(89, 9, 7, 0.78); }
+  .cta::after { background: rgba(31, 42, 68, 0.78); }
 }
 
-/* the plain banner (portfolio) sits on sage with dark type */
+/* the plain banner (portfolio) is a madder panel with cotton type */
 .cta--plain {
-  background: var(--sage);
-  color: var(--room-ink);
+  background: var(--madder);
+  color: var(--cotton);
   border-top: 0;
 }
 
-.cta--plain .eyebrow--light { color: var(--burgundy); }
-.cta--plain p { color: var(--room-soft); }
+.cta--plain p { color: rgba(243, 232, 210, 0.88); }
 
-/* headings in burgundy, as in the reference (cream where the ground is burgundy or a photo) */
+.cta--plain .btn--solid-light {
+  background: var(--cotton);
+  border-color: var(--cotton);
+  color: var(--madder);
+}
+
+.cta--plain .btn--solid-light:hover {
+  background: #fff;
+  border-color: #fff;
+  color: var(--madder-deep);
+}
+
+/* headings in madder red (cotton where the ground is indigo, madder or a photo) */
 .display,
 .h2,
 .c-intro__title,
-.story__title { color: var(--burgundy); }
-
-.c-intro__title em { color: var(--ink); }
+.story__title { color: var(--madder); }
 
 .section--dark .h2,
 .cta .h2 { color: inherit; }
 
-.cta--plain .h2 { color: var(--burgundy); }
-
-/* light-on-photo buttons and labels turn burgundy on cream; over photographs they stay light */
+/* light-on-photo buttons and labels turn madder on cotton; over photographs they stay light */
 .btn--light {
-  color: var(--burgundy);
-  border-color: rgba(89, 9, 7, 0.6);
+  color: var(--madder);
+  border-color: rgba(149, 42, 29, 0.6);
 }
 
-.eyebrow--light { color: var(--burgundy); }
+.eyebrow--light { color: var(--madder); }
 
 .cta .btn--light {
   color: #fff;
@@ -2243,4 +2316,3 @@ body.room .pagehead .eyebrow { color: var(--burgundy); }
 }
 
 .cta .eyebrow--light { color: rgba(255, 255, 255, 0.82); }
-.cta--plain .eyebrow--light { color: var(--burgundy); }
